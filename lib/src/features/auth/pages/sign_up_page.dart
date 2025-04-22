@@ -18,8 +18,8 @@ class _SignUpPageState extends State<SignUpPage> {
             tabletLayout: Container(),
             desktopLayout: Container(
               height : MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).sized.width,
-              color:color. 
+              width: MediaQuery.of(context).size.width,
+            
             )),
       ),
     );

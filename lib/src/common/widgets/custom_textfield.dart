@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_shop_admin_panel/common/constants/global_variables.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final int? maxLines;

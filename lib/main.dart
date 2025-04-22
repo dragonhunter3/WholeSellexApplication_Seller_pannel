@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/theme/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,13 +12,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CategoryRepository categoryrepositry = CategoryRepository();
     return MultiProvider(
       providers: [
         //   example provider
-        // ChangeNotifierProvider<ProductProvider>(
-        //   create: (_) => ProductProvider(),
-        // ),
+        ChangeNotifierProvider<ProductProvider>(
+          create: (_) => ProductProvider(),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
