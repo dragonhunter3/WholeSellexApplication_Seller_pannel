@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_shop_admin_panel/theme/app_text_theme.dart';
-import 'package:go_shop_admin_panel/theme/color_scheme.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/theme/app_text_theme.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/theme/color_scheme.dart';
+
 
 
 class AppTheme {
