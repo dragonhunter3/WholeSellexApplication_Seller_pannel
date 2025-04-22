@@ -15,9 +15,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         //   example provider
-        // ChangeNotifierProvider<ProductProvider>(
-        //   create: (_) => ProductProvider(),
-        // ),
+        ChangeNotifierProvider<ProductProvider>(
+          create: (_) => ProductProvider(),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
