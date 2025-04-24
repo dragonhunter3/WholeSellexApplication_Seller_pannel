@@ -21,6 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
             mobileLayout: Container(),
             tabletLayout: Container(),
             desktopLayout: Container(
+
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         color:AppColor.appGreen ,
@@ -32,6 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
             Text("Shahid", style: textTheme(context).bodyMedium?.copyWith(fontWeight: FontWeight.bold, color: colorScheme(context).secondary),)
           ],
         ),
+
 
             )),
       ),
