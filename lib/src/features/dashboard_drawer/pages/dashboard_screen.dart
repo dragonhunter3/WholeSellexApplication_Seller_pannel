@@ -117,7 +117,7 @@ class DashboardPageState extends State<DashboardPage> {
                           ),
                           const SizedBox(width: 10),
                           Text(
-                            "Go Shop",
+                            "WholeSellex",
                             style: textTheme(context).labelLarge?.copyWith(
                                 color: colorScheme(context).primary,
                                 fontWeight: FontWeight.bold),
@@ -710,7 +710,7 @@ class DashboardPageState extends State<DashboardPage> {
                               ),
                               const SizedBox(width: 10),
                               Text(
-                                "Go Shop",
+                                "WholeSellex",
                                 style: textTheme(context).bodySmall?.copyWith(
                                     color: colorScheme(context).primary,
                                     fontWeight: FontWeight.bold),
@@ -1354,7 +1354,7 @@ class DashboardPageState extends State<DashboardPage> {
                                 ),
                                 const SizedBox(width: 10),
                                 Text(
-                                  "Go Shop",
+                                  "WholeSellex",
                                   style: textTheme(context)
                                       .bodyMedium
                                       ?.copyWith(
