@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/common/constants/app_colors.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/responsive_layout/responsive_layout.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -17,9 +21,20 @@ class _SignUpPageState extends State<SignUpPage> {
             mobileLayout: Container(),
             tabletLayout: Container(),
             desktopLayout: Container(
-              height : MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-            
+
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color:AppColor.appGreen ,
+        child: Column(
+          children: [
+            TextButton(onPressed: (){
+              context.pushNamed(AppRoute.signupscreen);
+            }, child: Text("Move To Next Screen")),
+            Text("Shahid", style: textTheme(context).bodyMedium?.copyWith(fontWeight: FontWeight.bold, color: colorScheme(context).secondary),)
+          ],
+        ),
+
+
             )),
       ),
     );

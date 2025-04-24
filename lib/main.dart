@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
+
 import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/theme/theme.dart';
 
@@ -14,9 +17,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        //   example provider
-        ChangeNotifierProvider<ProductProvider>(
-          create: (_) => ProductProvider(),
+
+    
+        ChangeNotifierProvider<DashboardProvider>(
+          create: (_) => DashboardProvider(),
+
         ),
       ],
       child: MaterialApp.router(
