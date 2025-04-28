@@ -1,23 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-// import 'package:go_shop_admin_panel/common/constants/app_images.dart';
-// import 'package:go_shop_admin_panel/common/constants/global_variables.dart';
-// import 'package:go_shop_admin_panel/common/widgets/custom_textfield.dart';
-// import 'package:go_shop_admin_panel/features/analytics/pages/analytics_screen.dart';
-// import 'package:go_shop_admin_panel/features/customers/pages/customers_screen.dart';
-// import 'package:go_shop_admin_panel/features/dashboard_drawer/provider/dashboard_provider.dart';
-// import 'package:go_shop_admin_panel/features/home_page/pages/home_page.dart';
-// import 'package:go_shop_admin_panel/features/logout/pages/logout_page.dart';
-// import 'package:go_shop_admin_panel/features/orders/pages/orders_screen.dart';
-// import 'package:go_shop_admin_panel/features/promotion/pages/promotion_screen.dart';
-// import 'package:go_shop_admin_panel/features/settings/pages/setting_page.dart';
-// import 'package:go_shop_admin_panel/features/stores/pages/stores_screen.dart';
-// import 'package:go_shop_admin_panel/features/user_query/pages/user_query_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/app_images.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfield.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard/pages/dash_board_screen.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/model/dashboard_model.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
 import '../../responsive_layout/responsive_layout.dart';
 
@@ -36,52 +23,83 @@ class DashboardPageState extends State<DashboardPage> {
       GlobalKey<ScaffoldState>();
 
   final List<Widget> _screens = [
-    // const HomePage(),
-    // const StoresScreen(),
-    // const OrdersScreen(),
-    // const CustomersScreen(),
-    // const PromotionsScreen(),
-    // const QueriesScreen(),
-    // const AnalyticsScreen(),
-    // const SettingPage(),
-    // const LogoutPage(),
+    const DashBoardScreen(),
+    // Add other screens here corresponding to your entries
+    Container(), // Products
+    Container(), // Add Product
+    Container(), // Schedule Product
+    Container(), // All Products
+    Container(), // All Biddings
+    Container(), // Bidding Winners
+    Container(), // Orders
+    Container(), // Pending Order
+    Container(), // Cancel Orders
+    Container(), // Completed order
+    Container(), // Customers
+    Container(), // Discount
+    Container(), // Settings
+    Container(), // Notification Settings
+    Container(), // Payment Methods
+    Container(), // Profile Settings
+    Container(), // Change Password
+    Container(), // Set Profile
+    Container(), // Help and Supports
+    Container(), // Logout
   ];
+
   String _getAppBarTitle(int index) {
-    switch (index) {
-      case 0:
-        return 'Dashboard';
-      case 1:
-        return 'Stores';
-      case 2:
-        return 'Store Category';
-      case 3:
-        return 'Customers';
-      case 4:
-        return 'Promotions';
-      case 5:
-        return 'User Queries';
-      case 6:
-        return 'Analytics';
-      case 7:
-        return 'Settings';
-      case 8:
-        return 'Logout';
-      default:
-        return 'Dashboard';
-    }
+    // This needs to be updated based on your actual screen structure
+    if (index == 0) return 'Dashboard';
+    if (index >= 1 && index <= 5) return 'Products';
+    if (index >= 6 && index <= 8) return 'Orders';
+    if (index == 9) return 'Customers';
+    if (index == 10) return 'Discount';
+    if (index >= 11 && index <= 16) return 'Settings';
+    if (index == 17) return 'Help and Supports';
+    if (index == 18) return 'Logout';
+    return 'Dashboard';
   }
 
-  static Widget _buildScreen(
-      String text, Color bgColor, Color textColor, double fontSize) {
-    return Container(
-      color: bgColor,
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(fontSize: fontSize, color: textColor),
-        ),
-      ),
-    );
+  int _getIndexForEntry(String title) {
+    // This is a simplified mapping - you'll need to adjust based on your actual screen structure
+    switch (title) {
+      case "Dashboard":
+        return 0;
+      case "Add Product":
+        return 2;
+      case "Schedule Product":
+        return 3;
+      case "All Products":
+        return 4;
+      case "All Biddinngs":
+        return 5;
+      case "Bidding Winners":
+        return 6;
+      case "Pending Order":
+        return 7;
+      case "Cancel Orders":
+        return 8;
+      case "Completed order":
+        return 9;
+      case "Customers":
+        return 10;
+      case "Discount":
+        return 11;
+      case "Notification Settings":
+        return 12;
+      case "Payment Methods":
+        return 13;
+      case "Change Password":
+        return 14;
+      case "Set Profile":
+        return 15;
+      case "Help and Supports":
+        return 16;
+      case "Logout":
+        return 17;
+      default:
+        return 0;
+    }
   }
 
   @override
@@ -107,13 +125,8 @@ class DashboardPageState extends State<DashboardPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: 70,
-                            width: 70,
-                            child: SvgPicture.asset(
-                              AppIcons.drawerLogo,
-                              fit: BoxFit.cover,
-                            ),
+                          CircleAvatar(
+                            backgroundImage: AssetImage(AppImages.logo),
                           ),
                           const SizedBox(width: 10),
                           Text(
@@ -132,448 +145,7 @@ class DashboardPageState extends State<DashboardPage> {
                         padding: EdgeInsets.zero,
                         children: [
                           const SizedBox(height: 10),
-                          Consumer<DashboardProvider>(
-                            builder: (context, provider, child) {
-                              return ListTile(
-                                title: Container(
-                                  decoration: BoxDecoration(
-                                    color: provider.selectedIndex == 0
-                                        ? colorScheme(context).primary
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 16,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcons.dashboardIcon,
-                                        height: width * 0.013,
-                                        colorFilter: ColorFilter.mode(
-                                          provider.selectedIndex == 0
-                                              ? colorScheme(context).onPrimary
-                                              : colorScheme(context)
-                                                  .outlineVariant,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        'Dashboard',
-                                        style: textTheme(context)
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: provider.selectedIndex == 0
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  provider.setSelectedIndex(0);
-                                },
-                              );
-                            },
-                          ),
-                          Consumer<DashboardProvider>(
-                            builder: (context, provider, child) {
-                              return ListTile(
-                                title: Container(
-                                  decoration: BoxDecoration(
-                                    color: provider.selectedIndex == 1
-                                        ? colorScheme(context).primary
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 16,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcons.storeIcon,
-                                        height: width * 0.013,
-                                        colorFilter: ColorFilter.mode(
-                                          provider.selectedIndex == 1
-                                              ? colorScheme(context).onPrimary
-                                              : colorScheme(context)
-                                                  .outlineVariant,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        'Store',
-                                        style: textTheme(context)
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: provider.selectedIndex == 1
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  provider.setSelectedIndex(1);
-                                },
-                              );
-                            },
-                          ),
-                          Consumer<DashboardProvider>(
-                            builder: (context, provider, child) {
-                              return ListTile(
-                                title: Container(
-                                  decoration: BoxDecoration(
-                                    color: provider.selectedIndex == 2
-                                        ? colorScheme(context).primary
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 16,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcons.shoppingIcon,
-                                        height: width * 0.013,
-                                        colorFilter: ColorFilter.mode(
-                                          provider.selectedIndex == 2
-                                              ? colorScheme(context).onPrimary
-                                              : colorScheme(context)
-                                                  .outlineVariant,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        'Store Category',
-                                        style: textTheme(context)
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: provider.selectedIndex == 2
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  provider.setSelectedIndex(2);
-                                },
-                              );
-                            },
-                          ),
-                          Consumer<DashboardProvider>(
-                            builder: (context, provider, child) {
-                              return ListTile(
-                                title: Container(
-                                  decoration: BoxDecoration(
-                                    color: provider.selectedIndex == 3
-                                        ? colorScheme(context).primary
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 16,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcons.customerIcon,
-                                        height: width * 0.013,
-                                        colorFilter: ColorFilter.mode(
-                                          provider.selectedIndex == 3
-                                              ? colorScheme(context).onPrimary
-                                              : colorScheme(context)
-                                                  .outlineVariant,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        'Customers',
-                                        style: textTheme(context)
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: provider.selectedIndex == 3
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  provider.setSelectedIndex(3);
-                                },
-                              );
-                            },
-                          ),
-                          Consumer<DashboardProvider>(
-                            builder: (context, provider, child) {
-                              return ListTile(
-                                title: Container(
-                                  decoration: BoxDecoration(
-                                    color: provider.selectedIndex == 4
-                                        ? colorScheme(context).primary
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 16,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcons.promotionsIcon,
-                                        height: width * 0.013,
-                                        colorFilter: ColorFilter.mode(
-                                          provider.selectedIndex == 4
-                                              ? colorScheme(context).onPrimary
-                                              : colorScheme(context)
-                                                  .outlineVariant,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        'Promotions',
-                                        style: textTheme(context)
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: provider.selectedIndex == 4
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  provider.setSelectedIndex(4);
-                                },
-                              );
-                            },
-                          ),
-                          Consumer<DashboardProvider>(
-                            builder: (context, provider, child) {
-                              return ListTile(
-                                title: Container(
-                                  decoration: BoxDecoration(
-                                    color: provider.selectedIndex == 5
-                                        ? colorScheme(context).primary
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 16,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcons.usersqueriesIcon,
-                                        height: width * 0.013,
-                                        colorFilter: ColorFilter.mode(
-                                          provider.selectedIndex == 5
-                                              ? colorScheme(context).onPrimary
-                                              : colorScheme(context)
-                                                  .outlineVariant,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        'User Queries',
-                                        style: textTheme(context)
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: provider.selectedIndex == 5
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  provider.setSelectedIndex(5);
-                                },
-                              );
-                            },
-                          ),
-                          Consumer<DashboardProvider>(
-                            builder: (context, provider, child) {
-                              return ListTile(
-                                title: Container(
-                                  decoration: BoxDecoration(
-                                    color: provider.selectedIndex == 6
-                                        ? colorScheme(context).primary
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 16,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcons.analyticsdIcon,
-                                        height: width * 0.013,
-                                        colorFilter: ColorFilter.mode(
-                                          provider.selectedIndex == 6
-                                              ? colorScheme(context).onPrimary
-                                              : colorScheme(context)
-                                                  .outlineVariant,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        'Analytics',
-                                        style: textTheme(context)
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: provider.selectedIndex == 6
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  provider.setSelectedIndex(6);
-                                },
-                              );
-                            },
-                          ),
-                          SizedBox(width: height * 0.1),
-                          Consumer<DashboardProvider>(
-                            builder: (context, provider, child) {
-                              return ListTile(
-                                title: Container(
-                                  decoration: BoxDecoration(
-                                    color: provider.selectedIndex == 7
-                                        ? colorScheme(context).primary
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 16,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcons.settingsIcon,
-                                        height: width * 0.013,
-                                        colorFilter: ColorFilter.mode(
-                                          provider.selectedIndex == 7
-                                              ? colorScheme(context).onPrimary
-                                              : colorScheme(context)
-                                                  .outlineVariant,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        'Settings',
-                                        style: textTheme(context)
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: provider.selectedIndex == 7
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  provider.setSelectedIndex(7);
-                                },
-                              );
-                            },
-                          ),
-                          Consumer<DashboardProvider>(
-                            builder: (context, provider, child) {
-                              return ListTile(
-                                title: Container(
-                                  decoration: BoxDecoration(
-                                    color: provider.selectedIndex == 8
-                                        ? colorScheme(context).primary
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 16,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcons.logoutIcon,
-                                        height: width * 0.013,
-                                        colorFilter: ColorFilter.mode(
-                                          provider.selectedIndex == 8
-                                              ? colorScheme(context).onPrimary
-                                              : colorScheme(context)
-                                                  .outlineVariant,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        'Logout',
-                                        style: textTheme(context)
-                                            .labelMedium
-                                            ?.copyWith(
-                                              color: provider.selectedIndex == 8
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  provider.setSelectedIndex(8);
-                                },
-                              );
-                            },
-                          ),
+                          ..._buildNavigationItems(context),
                         ],
                       ),
                     ),
@@ -611,15 +183,14 @@ class DashboardPageState extends State<DashboardPage> {
                             Consumer<DashboardProvider>(
                               builder: (context, provider, child) {
                                 return Text(
-                                  "Detailed information about your ${_getAppBarTitle(provider.selectedIndex)}",
-                                  style: textTheme(context)
-                                      .labelMedium
-                                      ?.copyWith(
-                                          color: colorScheme(context)
-                                              .onSurface
-                                              .withOpacity(0.66),
-                                          fontWeight: FontWeight.w400),
-                                );
+                                    "Detailed information about your ${_getAppBarTitle(provider.selectedIndex)}",
+                                    style: textTheme(context)
+                                        .labelMedium
+                                        ?.copyWith(
+                                            color: colorScheme(context)
+                                                .onSurface
+                                                .withOpacity(0.66),
+                                            fontWeight: FontWeight.w400));
                               },
                             ),
                           ],
@@ -658,10 +229,6 @@ class DashboardPageState extends State<DashboardPage> {
                           )),
                         ),
                         SizedBox(width: width * 0.01),
-                        InkWell(
-                            onTap: () {},
-                            child: SvgPicture.asset(AppIcons.chevronDownIcon)),
-                        SizedBox(width: width * 0.02),
                       ],
                     ),
                   ),
@@ -686,538 +253,32 @@ class DashboardPageState extends State<DashboardPage> {
             decoration: BoxDecoration(color: colorScheme(context).onPrimary),
             child: Column(
               children: [
+                SizedBox(
+                  height: 80,
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.menu),
+                      const SizedBox(width: 10),
+                      Text(
+                        "WholeSellex",
+                        style: textTheme(context).bodySmall?.copyWith(
+                            color: colorScheme(context).primary,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
                 Expanded(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: colorScheme(context).onPrimary,
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 80,
-                          width: double.infinity,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 70,
-                                width: 70,
-                                child: SvgPicture.asset(
-                                  AppIcons.drawerLogo,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Text(
-                                "WholeSellex",
-                                style: textTheme(context).bodySmall?.copyWith(
-                                    color: colorScheme(context).primary,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Expanded(
-                          child: ListView(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            children: [
-                              const SizedBox(height: 10),
-                              Consumer<DashboardProvider>(
-                                builder: (context, provider, child) {
-                                  return ListTile(
-                                    title: Container(
-                                      decoration: BoxDecoration(
-                                        color: provider.selectedIndex == 0
-                                            ? colorScheme(context).primary
-                                            : Colors.transparent,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 16,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            AppIcons.dashboardIcon,
-                                            height: width * 0.017,
-                                            colorFilter: ColorFilter.mode(
-                                              provider.selectedIndex == 0
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            'Dashboard',
-                                            style: textTheme(context)
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  color:
-                                                      provider.selectedIndex ==
-                                                              0
-                                                          ? colorScheme(context)
-                                                              .onPrimary
-                                                          : colorScheme(context)
-                                                              .outlineVariant,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      provider.setSelectedIndex(0);
-                                      context.pop();
-                                    },
-                                  );
-                                },
-                              ),
-                              Consumer<DashboardProvider>(
-                                builder: (context, provider, child) {
-                                  return ListTile(
-                                    title: Container(
-                                      decoration: BoxDecoration(
-                                        color: provider.selectedIndex == 1
-                                            ? colorScheme(context).primary
-                                            : Colors.transparent,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 16,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            AppIcons.storeIcon,
-                                            height: width * 0.017,
-                                            colorFilter: ColorFilter.mode(
-                                              provider.selectedIndex == 1
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            'Store',
-                                            style: textTheme(context)
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  color:
-                                                      provider.selectedIndex ==
-                                                              1
-                                                          ? colorScheme(context)
-                                                              .onPrimary
-                                                          : colorScheme(context)
-                                                              .outlineVariant,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      provider.setSelectedIndex(1);
-                                      context.pop();
-                                    },
-                                  );
-                                },
-                              ),
-                              Consumer<DashboardProvider>(
-                                builder: (context, provider, child) {
-                                  return ListTile(
-                                    title: Container(
-                                      decoration: BoxDecoration(
-                                        color: provider.selectedIndex == 2
-                                            ? colorScheme(context).primary
-                                            : Colors.transparent,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 16,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            AppIcons
-                                                .storeIcon, // Add Orders icon
-                                            height: width * 0.017,
-                                            colorFilter: ColorFilter.mode(
-                                              provider.selectedIndex == 2
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            'Orders',
-                                            style: textTheme(context)
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  color:
-                                                      provider.selectedIndex ==
-                                                              2
-                                                          ? colorScheme(context)
-                                                              .onPrimary
-                                                          : colorScheme(context)
-                                                              .outlineVariant,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      provider.setSelectedIndex(2);
-                                      context.pop();
-                                    },
-                                  );
-                                },
-                              ),
-                              Consumer<DashboardProvider>(
-                                builder: (context, provider, child) {
-                                  return ListTile(
-                                    title: Container(
-                                      decoration: BoxDecoration(
-                                        color: provider.selectedIndex == 3
-                                            ? colorScheme(context).primary
-                                            : Colors.transparent,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 16,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            AppIcons.customerIcon,
-                                            height: width * 0.017,
-                                            colorFilter: ColorFilter.mode(
-                                              provider.selectedIndex == 3
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            'Customers',
-                                            style: textTheme(context)
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  color:
-                                                      provider.selectedIndex ==
-                                                              3
-                                                          ? colorScheme(context)
-                                                              .onPrimary
-                                                          : colorScheme(context)
-                                                              .outlineVariant,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      provider.setSelectedIndex(3);
-                                      context.pop();
-                                    },
-                                  );
-                                },
-                              ),
-                              Consumer<DashboardProvider>(
-                                builder: (context, provider, child) {
-                                  return ListTile(
-                                    title: Container(
-                                      decoration: BoxDecoration(
-                                        color: provider.selectedIndex == 4
-                                            ? colorScheme(context).primary
-                                            : Colors.transparent,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 16,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            AppIcons.promotionsIcon,
-                                            height: width * 0.017,
-                                            colorFilter: ColorFilter.mode(
-                                              provider.selectedIndex == 4
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            'Promotions',
-                                            style: textTheme(context)
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  color:
-                                                      provider.selectedIndex ==
-                                                              4
-                                                          ? colorScheme(context)
-                                                              .onPrimary
-                                                          : colorScheme(context)
-                                                              .outlineVariant,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      provider.setSelectedIndex(4);
-                                      context.pop();
-                                    },
-                                  );
-                                },
-                              ),
-                              Consumer<DashboardProvider>(
-                                builder: (context, provider, child) {
-                                  return ListTile(
-                                    title: Container(
-                                      decoration: BoxDecoration(
-                                        color: provider.selectedIndex == 5
-                                            ? colorScheme(context).primary
-                                            : Colors.transparent,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 16,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            AppIcons.usersqueriesIcon,
-                                            height: width * 0.017,
-                                            colorFilter: ColorFilter.mode(
-                                              provider.selectedIndex == 5
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            'User Queries',
-                                            style: textTheme(context)
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  color:
-                                                      provider.selectedIndex ==
-                                                              5
-                                                          ? colorScheme(context)
-                                                              .onPrimary
-                                                          : colorScheme(context)
-                                                              .outlineVariant,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      provider.setSelectedIndex(5);
-                                      context.pop();
-                                    },
-                                  );
-                                },
-                              ),
-                              Consumer<DashboardProvider>(
-                                builder: (context, provider, child) {
-                                  return ListTile(
-                                    title: Container(
-                                      decoration: BoxDecoration(
-                                        color: provider.selectedIndex == 6
-                                            ? colorScheme(context).primary
-                                            : Colors.transparent,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 16,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            AppIcons.analyticsdIcon,
-                                            height: width * 0.017,
-                                            colorFilter: ColorFilter.mode(
-                                              provider.selectedIndex == 6
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            'Analytics',
-                                            style: textTheme(context)
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  color:
-                                                      provider.selectedIndex ==
-                                                              6
-                                                          ? colorScheme(context)
-                                                              .onPrimary
-                                                          : colorScheme(context)
-                                                              .outlineVariant,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      provider.setSelectedIndex(6);
-                                      context.pop();
-                                    },
-                                  );
-                                },
-                              ),
-                              SizedBox(width: height * 0.1),
-                              Consumer<DashboardProvider>(
-                                builder: (context, provider, child) {
-                                  return ListTile(
-                                    title: Container(
-                                      decoration: BoxDecoration(
-                                        color: provider.selectedIndex == 7
-                                            ? colorScheme(context).primary
-                                            : Colors.transparent,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 16,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            AppIcons.settingsIcon,
-                                            height: width * 0.017,
-                                            colorFilter: ColorFilter.mode(
-                                              provider.selectedIndex == 7
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            'Settings',
-                                            style: textTheme(context)
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  color:
-                                                      provider.selectedIndex ==
-                                                              7
-                                                          ? colorScheme(context)
-                                                              .onPrimary
-                                                          : colorScheme(context)
-                                                              .outlineVariant,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      provider.setSelectedIndex(7);
-                                      context.pop();
-                                    },
-                                  );
-                                },
-                              ),
-                              Consumer<DashboardProvider>(
-                                builder: (context, provider, child) {
-                                  return ListTile(
-                                    title: Container(
-                                      decoration: BoxDecoration(
-                                        color: provider.selectedIndex == 8
-                                            ? colorScheme(context).primary
-                                            : Colors.transparent,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 16,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            AppIcons.logoutIcon,
-                                            height: width * 0.017,
-                                            colorFilter: ColorFilter.mode(
-                                              provider.selectedIndex == 8
-                                                  ? colorScheme(context)
-                                                      .onPrimary
-                                                  : colorScheme(context)
-                                                      .outlineVariant,
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            'Logout',
-                                            style: textTheme(context)
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  color:
-                                                      provider.selectedIndex ==
-                                                              8
-                                                          ? colorScheme(context)
-                                                              .onPrimary
-                                                          : colorScheme(context)
-                                                              .outlineVariant,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      provider.setSelectedIndex(8);
-                                      context.pop();
-                                    },
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: ListView(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    children: [
+                      const SizedBox(height: 10),
+                      ..._buildTabletNavigationItems(context),
+                    ],
                   ),
                 ),
               ],
@@ -1234,14 +295,15 @@ class DashboardPageState extends State<DashboardPage> {
               child: Row(
                 children: [
                   IconButton(
-                      onPressed: () {
-                        _tabletScaffoldKey.currentState!.openDrawer();
-                      },
-                      icon: Icon(
-                        Icons.menu,
-                        color: colorScheme(context).onSurface,
-                        size: width * 0.025,
-                      )),
+                    onPressed: () {
+                      _tabletScaffoldKey.currentState!.openDrawer();
+                    },
+                    icon: Icon(
+                      Icons.menu,
+                      color: colorScheme(context).onSurface,
+                      size: width * 0.025,
+                    ),
+                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1304,10 +366,6 @@ class DashboardPageState extends State<DashboardPage> {
                     )),
                   ),
                   SizedBox(width: width * 0.01),
-                  InkWell(
-                      onTap: () {},
-                      child: SvgPicture.asset(AppIcons.chevronDownIcon)),
-                  SizedBox(width: width * 0.02),
                 ],
               ),
             ),
@@ -1330,538 +388,32 @@ class DashboardPageState extends State<DashboardPage> {
               decoration: BoxDecoration(color: colorScheme(context).onPrimary),
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 80,
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.menu),
+                        const SizedBox(width: 10),
+                        Text(
+                          "WholeSellex",
+                          style: textTheme(context).bodyMedium?.copyWith(
+                              color: colorScheme(context).primary,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   Expanded(
-                    flex: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: colorScheme(context).onPrimary,
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 80,
-                            width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: height * 0.06,
-                                  width: width * 0.11,
-                                  child: SvgPicture.asset(
-                                    AppIcons.drawerLogo,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Text(
-                                  "WholeSellex",
-                                  style: textTheme(context)
-                                      .bodyMedium
-                                      ?.copyWith(
-                                          color: colorScheme(context).primary,
-                                          fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Expanded(
-                            child: ListView(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.zero,
-                              children: [
-                                const SizedBox(height: 10),
-                                Consumer<DashboardProvider>(
-                                  builder: (context, provider, child) {
-                                    return ListTile(
-                                      title: Container(
-                                        decoration: BoxDecoration(
-                                          color: provider.selectedIndex == 0
-                                              ? colorScheme(context).primary
-                                              : Colors.transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 16,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              AppIcons.dashboardIcon,
-                                              height: width * 0.023,
-                                              colorFilter: ColorFilter.mode(
-                                                provider.selectedIndex == 0
-                                                    ? colorScheme(context)
-                                                        .onPrimary
-                                                    : colorScheme(context)
-                                                        .outlineVariant,
-                                                BlendMode.srcIn,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              'Dashboard',
-                                              style: textTheme(context)
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: provider
-                                                                .selectedIndex ==
-                                                            0
-                                                        ? colorScheme(context)
-                                                            .onPrimary
-                                                        : colorScheme(context)
-                                                            .outlineVariant,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        provider.setSelectedIndex(0);
-                                        context.pop();
-                                      },
-                                    );
-                                  },
-                                ),
-                                Consumer<DashboardProvider>(
-                                  builder: (context, provider, child) {
-                                    return ListTile(
-                                      title: Container(
-                                        decoration: BoxDecoration(
-                                          color: provider.selectedIndex == 1
-                                              ? colorScheme(context).primary
-                                              : Colors.transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 16,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              AppIcons.storeIcon,
-                                              height: width * 0.023,
-                                              colorFilter: ColorFilter.mode(
-                                                provider.selectedIndex == 1
-                                                    ? colorScheme(context)
-                                                        .onPrimary
-                                                    : colorScheme(context)
-                                                        .outlineVariant,
-                                                BlendMode.srcIn,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              'Store',
-                                              style: textTheme(context)
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: provider
-                                                                .selectedIndex ==
-                                                            1
-                                                        ? colorScheme(context)
-                                                            .onPrimary
-                                                        : colorScheme(context)
-                                                            .outlineVariant,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        provider.setSelectedIndex(1);
-                                        context.pop();
-                                      },
-                                    );
-                                  },
-                                ),
-                                Consumer<DashboardProvider>(
-                                  builder: (context, provider, child) {
-                                    return ListTile(
-                                      title: Container(
-                                        decoration: BoxDecoration(
-                                          color: provider.selectedIndex == 2
-                                              ? colorScheme(context).primary
-                                              : Colors.transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 16,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              AppIcons.storeIcon,
-                                              height: width * 0.023,
-                                              colorFilter: ColorFilter.mode(
-                                                provider.selectedIndex == 2
-                                                    ? colorScheme(context)
-                                                        .onPrimary
-                                                    : colorScheme(context)
-                                                        .outlineVariant,
-                                                BlendMode.srcIn,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              'Orders',
-                                              style: textTheme(context)
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: provider
-                                                                .selectedIndex ==
-                                                            2
-                                                        ? colorScheme(context)
-                                                            .onPrimary
-                                                        : colorScheme(context)
-                                                            .outlineVariant,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        provider.setSelectedIndex(2);
-                                        context.pop();
-                                      },
-                                    );
-                                  },
-                                ),
-                                Consumer<DashboardProvider>(
-                                  builder: (context, provider, child) {
-                                    return ListTile(
-                                      title: Container(
-                                        decoration: BoxDecoration(
-                                          color: provider.selectedIndex == 3
-                                              ? colorScheme(context).primary
-                                              : Colors.transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 16,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              AppIcons.customerIcon,
-                                              height: width * 0.023,
-                                              colorFilter: ColorFilter.mode(
-                                                provider.selectedIndex == 3
-                                                    ? colorScheme(context)
-                                                        .onPrimary
-                                                    : colorScheme(context)
-                                                        .outlineVariant,
-                                                BlendMode.srcIn,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              'Customers',
-                                              style: textTheme(context)
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: provider
-                                                                .selectedIndex ==
-                                                            3
-                                                        ? colorScheme(context)
-                                                            .onPrimary
-                                                        : colorScheme(context)
-                                                            .outlineVariant,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        provider.setSelectedIndex(3);
-                                        context.pop();
-                                      },
-                                    );
-                                  },
-                                ),
-                                Consumer<DashboardProvider>(
-                                  builder: (context, provider, child) {
-                                    return ListTile(
-                                      title: Container(
-                                        decoration: BoxDecoration(
-                                          color: provider.selectedIndex == 4
-                                              ? colorScheme(context).primary
-                                              : Colors.transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 16,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              AppIcons.promotionsIcon,
-                                              height: width * 0.023,
-                                              colorFilter: ColorFilter.mode(
-                                                provider.selectedIndex == 4
-                                                    ? colorScheme(context)
-                                                        .onPrimary
-                                                    : colorScheme(context)
-                                                        .outlineVariant,
-                                                BlendMode.srcIn,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              'Promotions',
-                                              style: textTheme(context)
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: provider
-                                                                .selectedIndex ==
-                                                            4
-                                                        ? colorScheme(context)
-                                                            .onPrimary
-                                                        : colorScheme(context)
-                                                            .outlineVariant,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        provider.setSelectedIndex(4);
-                                        context.pop();
-                                      },
-                                    );
-                                  },
-                                ),
-                                Consumer<DashboardProvider>(
-                                  builder: (context, provider, child) {
-                                    return ListTile(
-                                      title: Container(
-                                        decoration: BoxDecoration(
-                                          color: provider.selectedIndex == 5
-                                              ? colorScheme(context).primary
-                                              : Colors.transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 16,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              AppIcons.usersqueriesIcon,
-                                              height: width * 0.023,
-                                              colorFilter: ColorFilter.mode(
-                                                provider.selectedIndex == 5
-                                                    ? colorScheme(context)
-                                                        .onPrimary
-                                                    : colorScheme(context)
-                                                        .outlineVariant,
-                                                BlendMode.srcIn,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              'User Queries',
-                                              style: textTheme(context)
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: provider
-                                                                .selectedIndex ==
-                                                            5
-                                                        ? colorScheme(context)
-                                                            .onPrimary
-                                                        : colorScheme(context)
-                                                            .outlineVariant,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        provider.setSelectedIndex(5);
-                                        context.pop();
-                                      },
-                                    );
-                                  },
-                                ),
-                                Consumer<DashboardProvider>(
-                                  builder: (context, provider, child) {
-                                    return ListTile(
-                                      title: Container(
-                                        decoration: BoxDecoration(
-                                          color: provider.selectedIndex == 6
-                                              ? colorScheme(context).primary
-                                              : Colors.transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 16,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              AppIcons.analyticsdIcon,
-                                              height: width * 0.023,
-                                              colorFilter: ColorFilter.mode(
-                                                provider.selectedIndex == 6
-                                                    ? colorScheme(context)
-                                                        .onPrimary
-                                                    : colorScheme(context)
-                                                        .outlineVariant,
-                                                BlendMode.srcIn,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              'Analytics',
-                                              style: textTheme(context)
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: provider
-                                                                .selectedIndex ==
-                                                            6
-                                                        ? colorScheme(context)
-                                                            .onPrimary
-                                                        : colorScheme(context)
-                                                            .outlineVariant,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        provider.setSelectedIndex(6);
-                                        context.pop();
-                                      },
-                                    );
-                                  },
-                                ),
-                                Consumer<DashboardProvider>(
-                                  builder: (context, provider, child) {
-                                    return ListTile(
-                                      title: Container(
-                                        decoration: BoxDecoration(
-                                          color: provider.selectedIndex == 7
-                                              ? colorScheme(context).primary
-                                              : Colors.transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 16,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              AppIcons.settingsIcon,
-                                              height: width * 0.023,
-                                              colorFilter: ColorFilter.mode(
-                                                provider.selectedIndex == 7
-                                                    ? colorScheme(context)
-                                                        .onPrimary
-                                                    : colorScheme(context)
-                                                        .outlineVariant,
-                                                BlendMode.srcIn,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              'Settings',
-                                              style: textTheme(context)
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: provider
-                                                                .selectedIndex ==
-                                                            7
-                                                        ? colorScheme(context)
-                                                            .onPrimary
-                                                        : colorScheme(context)
-                                                            .outlineVariant,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        provider.setSelectedIndex(7);
-                                        context.pop();
-                                      },
-                                    );
-                                  },
-                                ),
-                                Consumer<DashboardProvider>(
-                                  builder: (context, provider, child) {
-                                    return ListTile(
-                                      title: Container(
-                                        decoration: BoxDecoration(
-                                          color: provider.selectedIndex == 8
-                                              ? colorScheme(context).primary
-                                              : Colors.transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 16,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              AppIcons.logoutIcon,
-                                              height: width * 0.023,
-                                              colorFilter: ColorFilter.mode(
-                                                provider.selectedIndex == 8
-                                                    ? colorScheme(context)
-                                                        .onPrimary
-                                                    : colorScheme(context)
-                                                        .outlineVariant,
-                                                BlendMode.srcIn,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              'Logout',
-                                              style: textTheme(context)
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: provider
-                                                                .selectedIndex ==
-                                                            8
-                                                        ? colorScheme(context)
-                                                            .onPrimary
-                                                        : colorScheme(context)
-                                                            .outlineVariant,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        provider.setSelectedIndex(8);
-                                        context.pop();
-                                      },
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                    child: ListView(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      children: [
+                        const SizedBox(height: 10),
+                        ..._buildMobileNavigationItems(context),
+                      ],
                     ),
                   ),
                 ],
@@ -1877,9 +429,7 @@ class DashboardPageState extends State<DashboardPage> {
                 color: colorScheme(context).surface,
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: width * 0.02,
-                    ),
+                    SizedBox(width: width * 0.02),
                     InkWell(
                       onTap: () {
                         _mobileScaffoldKey.currentState!.openDrawer();
@@ -1890,9 +440,7 @@ class DashboardPageState extends State<DashboardPage> {
                         size: width * 0.04,
                       ),
                     ),
-                    SizedBox(
-                      width: width * 0.01,
-                    ),
+                    SizedBox(width: width * 0.01),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1956,11 +504,6 @@ class DashboardPageState extends State<DashboardPage> {
                       )),
                     ),
                     SizedBox(width: width * 0.01),
-                    InkWell(
-                        onTap: () {},
-                        child: SvgPicture.asset(
-                            width: width * 0.025, AppIcons.chevronDownIcon)),
-                    SizedBox(width: width * 0.02),
                   ],
                 ),
               ),
@@ -1976,5 +519,248 @@ class DashboardPageState extends State<DashboardPage> {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildNavigationItems(BuildContext context) {
+    return data.map((entry) {
+      if (entry.children!.isEmpty) {
+        return Consumer<DashboardProvider>(
+          builder: (context, provider, child) {
+            // You'll need to map these to the correct indices
+            int index = _getIndexForEntry(entry.title!);
+            return ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Container(
+                decoration: BoxDecoration(
+                  color: provider.selectedIndex == index
+                      ? colorScheme(context).primary
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 16,
+                ),
+                child: Text(
+                  entry.title!,
+                  style: textTheme(context).labelMedium?.copyWith(
+                        color: provider.selectedIndex == index
+                            ? colorScheme(context).onPrimary
+                            : colorScheme(context).outlineVariant,
+                      ),
+                ),
+              ),
+              onTap: () {
+                provider.setSelectedIndex(index);
+              },
+            );
+          },
+        );
+      } else {
+        return Consumer<DashboardProvider>(
+          builder: (context, provider, child) {
+            return ExpansionTile(
+              // tilePadding: EdgeInsets.zero,
+              title: Text(
+                entry.title!,
+                style: textTheme(context).labelMedium?.copyWith(
+                      color: colorScheme(context).outlineVariant,
+                    ),
+              ),
+              children: entry.children!.map((childEntry) {
+                int index = _getIndexForEntry(childEntry.title!);
+                return ListTile(
+                  title: Container(
+                    decoration: BoxDecoration(
+                      color: provider.selectedIndex == index
+                          ? colorScheme(context).primary
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 16,
+                    ),
+                    child: Text(
+                      childEntry.title!,
+                      style: textTheme(context).labelMedium?.copyWith(
+                            color: provider.selectedIndex == index
+                                ? colorScheme(context).onPrimary
+                                : colorScheme(context).outlineVariant,
+                          ),
+                    ),
+                  ),
+                  onTap: () {
+                    provider.setSelectedIndex(index);
+                  },
+                );
+              }).toList(),
+            );
+          },
+        );
+      }
+    }).toList();
+  }
+
+  List<Widget> _buildMobileNavigationItems(BuildContext context) {
+    return data.map((entry) {
+      if (entry.children!.isEmpty) {
+        return Consumer<DashboardProvider>(
+          builder: (context, provider, child) {
+            int index = _getIndexForEntry(entry.title!);
+            return ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Container(
+                decoration: BoxDecoration(
+                  color: provider.selectedIndex == index
+                      ? colorScheme(context).primary
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 16,
+                ),
+                child: Text(
+                  entry.title!,
+                  style: textTheme(context).bodyMedium?.copyWith(
+                        color: provider.selectedIndex == index
+                            ? colorScheme(context).onPrimary
+                            : colorScheme(context).outlineVariant,
+                      ),
+                ),
+              ),
+              onTap: () {
+                provider.setSelectedIndex(index);
+                Navigator.pop(context); // Close the drawer
+              },
+            );
+          },
+        );
+      } else {
+        return Consumer<DashboardProvider>(
+          builder: (context, provider, child) {
+            return ExpansionTile(
+              title: Text(
+                entry.title!,
+                style: textTheme(context).bodyMedium?.copyWith(
+                      color: colorScheme(context).outlineVariant,
+                    ),
+              ),
+              children: entry.children!.map((childEntry) {
+                int index = _getIndexForEntry(childEntry.title!);
+                return ListTile(
+                  title: Container(
+                    decoration: BoxDecoration(
+                      color: provider.selectedIndex == index
+                          ? colorScheme(context).primary
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 16,
+                    ),
+                    child: Text(
+                      childEntry.title!,
+                      style: textTheme(context).bodyMedium?.copyWith(
+                            color: provider.selectedIndex == index
+                                ? colorScheme(context).onPrimary
+                                : colorScheme(context).outlineVariant,
+                          ),
+                    ),
+                  ),
+                  onTap: () {
+                    provider.setSelectedIndex(index);
+                    Navigator.pop(context); // Close the drawer
+                  },
+                );
+              }).toList(),
+            );
+          },
+        );
+      }
+    }).toList();
+  }
+
+  List<Widget> _buildTabletNavigationItems(BuildContext context) {
+    return data.map((entry) {
+      if (entry.children!.isEmpty) {
+        return Consumer<DashboardProvider>(
+          builder: (context, provider, child) {
+            int index = _getIndexForEntry(entry.title!);
+            return ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Container(
+                decoration: BoxDecoration(
+                  color: provider.selectedIndex == index
+                      ? colorScheme(context).primary
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 16,
+                ),
+                child: Text(
+                  entry.title!,
+                  style: textTheme(context).labelLarge?.copyWith(
+                        color: provider.selectedIndex == index
+                            ? colorScheme(context).onPrimary
+                            : colorScheme(context).outlineVariant,
+                      ),
+                ),
+              ),
+              onTap: () {
+                provider.setSelectedIndex(index);
+                Navigator.pop(context); // Close the drawer
+              },
+            );
+          },
+        );
+      } else {
+        return Consumer<DashboardProvider>(
+          builder: (context, provider, child) {
+            return ExpansionTile(
+              title: Text(
+                entry.title!,
+                style: textTheme(context).labelLarge?.copyWith(
+                      color: colorScheme(context).outlineVariant,
+                    ),
+              ),
+              children: entry.children!.map((childEntry) {
+                int index = _getIndexForEntry(childEntry.title!);
+                return ListTile(
+                  title: Container(
+                    decoration: BoxDecoration(
+                      color: provider.selectedIndex == index
+                          ? colorScheme(context).primary
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 16,
+                    ),
+                    child: Text(
+                      childEntry.title!,
+                      style: textTheme(context).labelLarge?.copyWith(
+                            color: provider.selectedIndex == index
+                                ? colorScheme(context).onPrimary
+                                : colorScheme(context).outlineVariant,
+                          ),
+                    ),
+                  ),
+                  onTap: () {
+                    provider.setSelectedIndex(index);
+                    Navigator.pop(context); // Close the drawer
+                  },
+                );
+              }).toList(),
+            );
+          },
+        );
+      }
+    }).toList();
   }
 }
