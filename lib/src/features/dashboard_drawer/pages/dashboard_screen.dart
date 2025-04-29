@@ -713,7 +713,7 @@ class DashboardPageState extends State<DashboardPage> {
               ),
               onTap: () {
                 provider.setSelectedIndex(index);
-                Navigator.pop(context); // Close the drawer
+                Navigator.pop(context);
               },
             );
           },
