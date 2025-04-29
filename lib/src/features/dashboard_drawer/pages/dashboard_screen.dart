@@ -19,6 +19,7 @@ import 'package:whole_sellex_selleradmin_pannel/src/common/constants/app_images.
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfield.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/product/screen/product_screen.dart';
 import '../../responsive_layout/responsive_layout.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -36,8 +37,8 @@ class DashboardPageState extends State<DashboardPage> {
       GlobalKey<ScaffoldState>();
 
   final List<Widget> _screens = [
-    // const HomePage(),
-    // const StoresScreen(),
+    //  const DashboardPage(),
+    ProductFormScreen(),
     // const OrdersScreen(),
     // const CustomersScreen(),
     // const PromotionsScreen(),
@@ -51,9 +52,9 @@ class DashboardPageState extends State<DashboardPage> {
       case 0:
         return 'Dashboard';
       case 1:
-        return 'Stores';
+        return 'Product';
       case 2:
-        return 'Store Category';
+        return 'Product Category';
       case 3:
         return 'Customers';
       case 4:
@@ -210,7 +211,7 @@ class DashboardPageState extends State<DashboardPage> {
                                       ),
                                       const SizedBox(width: 10),
                                       Text(
-                                        'Store',
+                                        'Product',
                                         style: textTheme(context)
                                             .labelMedium
                                             ?.copyWith(
@@ -259,7 +260,7 @@ class DashboardPageState extends State<DashboardPage> {
                                       ),
                                       const SizedBox(width: 10),
                                       Text(
-                                        'Store Category',
+                                        'Product Category',
                                         style: textTheme(context)
                                             .labelMedium
                                             ?.copyWith(
@@ -810,7 +811,7 @@ class DashboardPageState extends State<DashboardPage> {
                                           ),
                                           const SizedBox(width: 10),
                                           Text(
-                                            'Store',
+                                            'Product',
                                             style: textTheme(context)
                                                 .labelLarge
                                                 ?.copyWith(
@@ -1456,7 +1457,7 @@ class DashboardPageState extends State<DashboardPage> {
                                             ),
                                             const SizedBox(width: 10),
                                             Text(
-                                              'Store',
+                                              'Product',
                                               style: textTheme(context)
                                                   .bodyMedium
                                                   ?.copyWith(

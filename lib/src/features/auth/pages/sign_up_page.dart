@@ -16,6 +16,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:  colorScheme(context).onPrimary,
       body: LayoutBuilder(
         builder: (context, constraints) => ResponsiveLayout(
             mobileLayout: Container(),
