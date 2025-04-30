@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:whole_sellex_selleradmin_pannel/src/features/auth/controller/controller.dart';
-
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/product_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/products/conteroller/controller.dart';
 
 import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
@@ -29,6 +28,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<CategoryProvider>(
           create: (_) => CategoryProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ProductProvider(),
+        )
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

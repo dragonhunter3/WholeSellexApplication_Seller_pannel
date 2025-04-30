@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/pages/dashboard_screen.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/product/screen/product_screen.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/routes/error_route.dart';
 import 'route_transition.dart';
 
@@ -26,6 +27,15 @@ class MyAppRouter {
           child: const DashboardPage(),
         ),
       ),
+       GoRoute(
+        name: AppRoute.product,
+        path: '/${AppRoute.product}',
+        pageBuilder: (context, state) => buildPageWithFadeTransition<void>(
+          context: context,
+          state: state,
+          child:  ProductFormScreen(),
+        ),
+      ),
     ],
     errorPageBuilder: (context, state) {
       return const MaterialPage(child: ErrorPage());
@@ -43,4 +53,5 @@ class MyAppRouter {
 class AppRoute {
   static const String errorPage = 'error-page';
   static const String dashboard = "dashboard-screen";
+  static const String product = "product-screen";
 }

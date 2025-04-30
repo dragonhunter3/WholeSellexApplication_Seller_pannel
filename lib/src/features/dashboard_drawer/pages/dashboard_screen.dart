@@ -760,5 +760,5 @@ class DashboardPageState extends State<DashboardPage> {
         );
       }
     }).toList();
-  }
+}
 }
