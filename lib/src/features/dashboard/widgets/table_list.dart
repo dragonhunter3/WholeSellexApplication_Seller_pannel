@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/common/constants/app_colors.dart';
+
 class TableModel {
   final String orderId;
   final String productName;
