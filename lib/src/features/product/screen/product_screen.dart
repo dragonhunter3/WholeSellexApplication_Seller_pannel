@@ -48,7 +48,7 @@ class ProductFormScreen extends StatelessWidget {
                   
                       // DescriptionSection(),
                       const SizedBox(height: 20),
-                      const ImageUploadBox(),
+                      // const ImageUploadBox(),
                       const SizedBox(height: 20),
                   
                       const Text(
