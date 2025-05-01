@@ -26,8 +26,244 @@ class _EarningScreenState extends State<EarningScreen> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           return ResponsiveLayout(
-              mobileLayout: Container(),
-              tabletLayout: Container(),
+              mobileLayout: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Wrap(
+                        spacing: 50,
+                        runSpacing: 20,
+                        children: [
+                          customContainer(
+                              AppColor.appOrange,
+                              SvgPicture.asset(AppIcons.text),
+                              "Earnings",
+                              "RS 128k"),
+                          customContainer(
+                              AppColor.appRed,
+                              SvgPicture.asset(AppIcons.disk),
+                              "Balance",
+                              "RS 512K"),
+                          customContainer(
+                              AppColor.appGreen,
+                              SvgPicture.asset(AppIcons.trolley),
+                              "Total value of sales",
+                              "RS 64K"),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Wrap(
+                        runSpacing: 20,
+                        spacing: 20,
+                        children: [
+                          Container(
+                            height: height * 0.5,
+                            width: width,
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppColor.appWhite,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Product views",
+                                  style: textTheme(context)
+                                      .bodyMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 30),
+                                SizedBox(
+                                    height: height * 0.3,
+                                    width: width,
+                                    child: CustomBarChart())
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: height * 0.5,
+                            width: width,
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppColor.appWhite,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Top Cities",
+                                  style: textTheme(context)
+                                      .bodyMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                    child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: 10,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      title: Text("Lahore",
+                                          style: textTheme(context).bodySmall),
+                                      trailing: Text("RS 50000",
+                                          style: textTheme(context).bodySmall),
+                                    );
+                                  },
+                                )),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        height: height * 0.5,
+                        width: width,
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppColor.appWhite,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Product Record",
+                                style: textTheme(context)
+                                    .labelLarge
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
+                            SizedBox(height: 20),
+                            SizedBox(
+                                height: height * 0.35,
+                                width: width,
+                                child: SingleChildScrollView(
+                                    child: customTable())),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              tabletLayout: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          customContainer(
+                              AppColor.appOrange,
+                              SvgPicture.asset(AppIcons.text),
+                              "Earnings",
+                              "RS 128k"),
+                          customContainer(
+                              AppColor.appRed,
+                              SvgPicture.asset(AppIcons.disk),
+                              "Balance",
+                              "RS 512K"),
+                          customContainer(
+                              AppColor.appGreen,
+                              SvgPicture.asset(AppIcons.trolley),
+                              "Total value of sales",
+                              "RS 64K"),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: height * 0.5,
+                            width: width * 0.65,
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppColor.appWhite,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Product views",
+                                  style: textTheme(context)
+                                      .bodySmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 30),
+                                SizedBox(
+                                    height: height * 0.3,
+                                    width: width,
+                                    child: CustomBarChart())
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: height * 0.5,
+                            width: width * 0.28,
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppColor.appWhite,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Top Cities",
+                                  style: textTheme(context)
+                                      .bodySmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                    child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: 10,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      title: Text("Lahore",
+                                          style: textTheme(context).labelLarge),
+                                      trailing: Text("RS 50000",
+                                          style: textTheme(context).labelLarge),
+                                    );
+                                  },
+                                )),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        height: height * 0.5,
+                        width: width,
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppColor.appWhite,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Product Record",
+                                style: textTheme(context)
+                                    .labelLarge
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
+                            SizedBox(height: 20),
+                            SizedBox(
+                                height: height * 0.35,
+                                width: width,
+                                child: SingleChildScrollView(
+                                    child: customTable())),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
               desktopLayout: SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsets.all(16),
@@ -154,9 +390,30 @@ class _EarningScreenState extends State<EarningScreen> {
   }
 
   Widget customContainer(Color color, Widget icon, String text1, String price) {
+    double containerWidth;
+    if (width < 600) {
+      containerWidth = width * 0.4;
+    } else if (width > 1024) {
+      containerWidth = width * 0.25;
+    } else {
+      containerWidth = width * 0.3;
+    }
+    TextStyle? textStyle;
+    TextStyle? textStyle2;
+
+    if (width < 600) {
+      textStyle = textTheme(context).bodySmall;
+      textStyle2 = textTheme(context).bodyMedium;
+    } else if (width < 1024) {
+      textStyle = textTheme(context).labelLarge;
+      textStyle2 = textTheme(context).bodyMedium;
+    } else {
+      textStyle = textTheme(context).labelLarge;
+      textStyle2 = textTheme(context).bodyLarge;
+    }
     return Container(
-      height: height * 0.26,
-      width: width * 0.25,
+      height: height * 0.29,
+      width: containerWidth,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(20)),
@@ -174,7 +431,7 @@ class _EarningScreenState extends State<EarningScreen> {
           SizedBox(height: 20),
           Row(
             children: [
-              Text(text1, style: textTheme(context).labelMedium),
+              Text(text1, style: textStyle),
               SizedBox(width: 10),
               Icon(Icons.info_outline, size: 14)
             ],
@@ -182,9 +439,7 @@ class _EarningScreenState extends State<EarningScreen> {
           SizedBox(height: 10),
           Text(
             price,
-            style: textTheme(context)
-                .bodyMedium
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: textStyle2?.copyWith(fontWeight: FontWeight.bold),
           )
         ],
       ),

@@ -8,6 +8,15 @@ class CustomBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    TextStyle? textStyle;
+    if (width < 600) {
+      textStyle = textTheme(context).bodySmall;
+    } else if (width < 1024) {
+      textStyle = textTheme(context).labelLarge;
+    } else {
+      textStyle = textTheme(context).labelMedium;
+    }
     return LayoutBuilder(
       builder: (context, constraints) {
         return BarChart(
@@ -19,7 +28,7 @@ class CustomBarChart extends StatelessWidget {
                   showTitles: true,
                   getTitlesWidget: (value, meta) => Text(
                     '${(8 + value * 0.2).toStringAsFixed(1)}m',
-                    style: textTheme(context).labelMedium,
+                    style: textStyle,
                   ),
                 ),
               ),
@@ -36,7 +45,7 @@ class CustomBarChart extends StatelessWidget {
                     final months = ['Jan', 'Feb', 'Mar', 'Apr'];
                     return Text(
                       months[value.toInt()],
-                      style: textTheme(context).labelMedium,
+                      style: textStyle,
                     );
                   },
                 ),

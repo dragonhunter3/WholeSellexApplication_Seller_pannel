@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/app_images.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfield.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/bidding/pages/bidding_screen.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard/pages/dash_board_screen.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/model/dashboard_model.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
@@ -30,7 +31,7 @@ class DashboardPageState extends State<DashboardPage> {
     ProductFormScreen(), // 1: Add Product
     Container(), // 2: Schedule Product
     ShowAllProducts(), // 3: All Products
-    Container(), // 4: All Biddings
+    BiddingScreen(), // 4: All Biddings
     EarningScreen(), // 5: Earnings
     Container(), // 6: Pending Order
     Container(), // 7: Cancel Orders
