@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/categry_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/product_provider.dart';
 
 import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
+        ),
+         ChangeNotifierProvider(
+          create: (_) => CategoryProvider(),
         )
       ],
       child: MaterialApp.router(
