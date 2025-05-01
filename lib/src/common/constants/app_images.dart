@@ -7,5 +7,7 @@ class AppImages {
 
 class AppIcons {
   //SplashImage
-  // static String logoIcon = 'assets/icons/logo.svg';
+  static String text = 'assets/icons/text.svg';
+  static String disk = 'assets/icons/disk.svg';
+  static String trolley = 'assets/icons/trolley.svg';
 }

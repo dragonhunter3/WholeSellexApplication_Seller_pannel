@@ -6,6 +6,8 @@ import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfi
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard/pages/dash_board_screen.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/model/dashboard_model.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/earnings/pages/earning.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/product/screen/product_screen.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/products/pages/show_all_products.dart';
 import '../../responsive_layout/responsive_layout.dart';
 
@@ -25,14 +27,14 @@ class DashboardPageState extends State<DashboardPage> {
 
   final List<Widget> _screens = [
     const DashBoardScreen(), // 0: Dashboard
-    Container(), // 1: Add Product
+    ProductFormScreen(), // 1: Add Product
     Container(), // 2: Schedule Product
     ShowAllProducts(), // 3: All Products
     Container(), // 4: All Biddings
-    Container(), // 5: Earnings
+    EarningScreen(), // 5: Earnings
     Container(), // 6: Pending Order
     Container(), // 7: Cancel Orders
-    Container(), // 8: Completed Order
+    Container(), // 8: Completed Orderaa
     Container(), // 9: Customers
     Container(), //10: Discount
     Container(), //11: Notification Settings
@@ -760,5 +762,5 @@ class DashboardPageState extends State<DashboardPage> {
         );
       }
     }).toList();
-}
+  }
 }
