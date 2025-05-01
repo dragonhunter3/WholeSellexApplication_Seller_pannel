@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           create: (_) => ProductProvider(),
         ),
          ChangeNotifierProvider(
-          create: (_) => CategoryProvider(),
+          create: (_) => Category(),
         )
       ],
       child: MaterialApp.router(

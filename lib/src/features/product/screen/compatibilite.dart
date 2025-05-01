@@ -11,7 +11,7 @@ class CategoryAndCompatibilitySelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CategoryProvider>(
+    return Consumer<Category>(
       builder: (context, provider, _) {
         return Padding(
           padding: const EdgeInsets.all(8.0),

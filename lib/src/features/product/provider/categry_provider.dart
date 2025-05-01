@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CategoryProvider with ChangeNotifier {
+class Category  with ChangeNotifier {
   String selectedCategory = 'Purchase now';
   List<String> compatibilities = [
     'Sketch', 'Figma', 'WordPress', 'Procreate', 
