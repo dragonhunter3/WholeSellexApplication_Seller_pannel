@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class EnteryModel {
   final String? title;
   final List<EnteryModel>? children;
@@ -14,7 +12,7 @@ List<EnteryModel> data = <EnteryModel>[
     EnteryModel("Schdule Product"),
     EnteryModel("All Products"),
     EnteryModel("All Biddinngs"),
-    EnteryModel("Bidding Winners"),
+    EnteryModel("Earnings"),
   ]),
   EnteryModel("Orders", [
     EnteryModel("Pending Order"),

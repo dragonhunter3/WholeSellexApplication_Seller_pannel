@@ -7,6 +7,8 @@ import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard/pages/das
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/model/dashboard_model.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/screen/product_screen.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/earnings/pages/earning.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/products/pages/show_all_products.dart';
 import '../../responsive_layout/responsive_layout.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -24,71 +26,68 @@ class DashboardPageState extends State<DashboardPage> {
       GlobalKey<ScaffoldState>();
 
   final List<Widget> _screens = [
-    const DashBoardScreen(),
-    // Add other screens here corresponding to your entries
-    Container(), // Products
-  ProductFormScreen(), // Add Product
-    Container(), // Schedule Product
-    Container(), // All Products
-    Container(), // All Biddings
-    Container(), // Bidding Winners
-    Container(), // Orders
-    Container(), // Pending Order
-    Container(), // Cancel Orders
-    Container(), // Completed order
-    Container(), // Customers
-    Container(), // Discount
-    Container(), // Settings
-    Container(), // Notification Settings
-    Container(), // Payment Methods
-    Container(), // Profile Settings
-    Container(), // Change Password
-    Container(), // Set Profile
-    Container(), // Help and Supports
-    Container(), // Logout
+    const DashBoardScreen(), // 0: Dashboard
+    ProductFormScreen(), // 1: Add Product
+    Container(), // 2: Schedule Product
+    ShowAllProducts(), // 3: All Products
+    Container(), // 4: All Biddings
+    EarningScreen(), // 5: Earnings
+    Container(), // 6: Pending Order
+    Container(), // 7: Cancel Orders
+    Container(), // 8: Completed Orderaa
+    Container(), // 9: Customers
+    Container(), //10: Discount
+    Container(), //11: Notification Settings
+    Container(), //12: Payment Methods
+    Container(), //13: Profile Settings
+    Container(), //14: Change Password
+    Container(), //15: Set Profile
+    Container(), //16: Help and Supports
+    Container(), //17: Logout
   ];
 
   String _getAppBarTitle(int index) {
-    // This needs to be updated based on your actual screen structure
     if (index == 0) return 'Dashboard';
     if (index >= 1 && index <= 5) return 'Products';
     if (index >= 6 && index <= 8) return 'Orders';
     if (index == 9) return 'Customers';
     if (index == 10) return 'Discount';
-    if (index >= 11 && index <= 16) return 'Settings';
-    if (index == 17) return 'Help and Supports';
-    if (index == 18) return 'Logout';
+    if (index >= 11 && index <= 15) return 'Settings';
+    if (index == 16) return 'Help and Supports';
+    if (index == 17) return 'Logout';
     return 'Dashboard';
   }
 
   int _getIndexForEntry(String title) {
-    // This is a simplified mapping - you'll need to adjust based on your actual screen structure
     switch (title) {
       case "Dashboard":
         return 0;
       case "Add Product":
-        return 2;
+        return 1;
+      case "Schdule Product":
       case "Schedule Product":
-        return 3;
+        return 2;
       case "All Products":
-        return 4;
+        return 3;
       case "All Biddinngs":
+        return 4;
+      case "Earnings":
         return 5;
-      case "Bidding Winners":
-        return 6;
       case "Pending Order":
-        return 7;
+        return 6;
       case "Cancel Orders":
-        return 8;
+        return 7;
       case "Completed order":
-        return 9;
+        return 8;
       case "Customers":
-        return 10;
+        return 9;
       case "Discount":
-        return 11;
+        return 10;
       case "Notification Settings":
-        return 12;
+        return 11;
       case "Payment Methods":
+        return 12;
+      case "Profile Settings":
         return 13;
       case "Change Password":
         return 14;
@@ -763,5 +762,5 @@ class DashboardPageState extends State<DashboardPage> {
         );
       }
     }).toList();
-}
+  }
 }
