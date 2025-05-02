@@ -9,6 +9,7 @@ import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/pr
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/screen/product_screen.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/earnings/pages/earning.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/products/pages/show_all_products.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/schedule/model/schedule.dart';
 import '../../responsive_layout/responsive_layout.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -28,7 +29,7 @@ class DashboardPageState extends State<DashboardPage> {
   final List<Widget> _screens = [
     const DashBoardScreen(), // 0: Dashboard
     ProductFormScreen(), // 1: Add Product
-    Container(), // 2: Schedule Product
+   Productsschedule() ,// 2: Schedule Product
     ShowAllProducts(), // 3: All Products
     Container(), // 4: All Biddings
     EarningScreen(), // 5: Earnings
