@@ -22,7 +22,7 @@ class _ProductsscheduleState extends State<Productsschedule> {
     });
   }
 
-  TextEditingController controller = TextEditingController();
+ 
   var height;
   var width;
   bool isSelected = true;
