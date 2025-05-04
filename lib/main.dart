@@ -7,6 +7,8 @@ import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/pr
 import 'package:whole_sellex_selleradmin_pannel/src/features/products/conteroller/controller.dart';
 
 import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/schedule/model/provider/scheduleprovider.dart';
+
 import 'package:whole_sellex_selleradmin_pannel/src/theme/theme.dart';
 
 void main() {
@@ -32,6 +34,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
         ),
+          ChangeNotifierProvider(
+      create: (_) => ScheduleProvider(),),
          ChangeNotifierProvider(
           create: (_) => Category(),
         )
