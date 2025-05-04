@@ -4,7 +4,6 @@ import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_vari
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfield.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/screen/image.dart';
 
-
 class ProductNameAndImageSection extends StatelessWidget {
   final TextEditingController nameController;
 
@@ -22,27 +21,28 @@ class ProductNameAndImageSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-         Text(
+          Text(
             "Name & Images",
-           style: textTheme(context)
-                                      .bodyMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),
+            style: textTheme(context)
+                .bodyMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Row(
-            children:  [
+            children: [
               Text(
                 "Product Title",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(width: 6),
-              Icon(Icons.error_outline, color: colorScheme(context).onSecondary, size: 18),
-
+              Icon(Icons.error_outline,
+                  color: colorScheme(context).onSecondary, size: 18),
               SizedBox(width: 4),
               Card.filled(
                 child: Text(
                   "Max 100 characters. No HTML or emoji allowed.",
-                  style: TextStyle(fontSize: 12, color: colorScheme(context).onSecondary),
+                  style: TextStyle(
+                      fontSize: 12, color: colorScheme(context).onSecondary),
                 ),
               ),
             ],

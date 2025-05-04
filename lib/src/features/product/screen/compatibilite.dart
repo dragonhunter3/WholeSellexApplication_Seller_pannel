@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-
 import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/categry_provider.dart';
@@ -24,12 +22,12 @@ class CategoryAndCompatibilitySelector extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Text(
+                Text(
                   "Category & attibutes",
                   style: textTheme(context)
-                                      .bodyMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),),
-                
+                      .bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
@@ -41,7 +39,8 @@ class CategoryAndCompatibilitySelector extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 6),
-                    Icon(Icons.error_outline, color: colorScheme(context).onSecondary, size: 18),
+                    Icon(Icons.error_outline,
+                        color: colorScheme(context).onSecondary, size: 18),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -85,16 +84,17 @@ class CategoryAndCompatibilitySelector extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color:
-                              selected
-                                  ? colorScheme(context).primary
-                                  :   colorScheme(context).outline,
+                          color: selected
+                              ? colorScheme(context).primary
+                              : colorScheme(context).outline,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           item,
                           style: TextStyle(
-                            color: selected ? colorScheme(context).onError : colorScheme(context).onSecondary,
+                            color: selected
+                                ? colorScheme(context).onError
+                                : colorScheme(context).onSecondary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
