@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/app_images.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfield.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/bidding/pages/bidding_screen.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/chat/pages/chat_page.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard/pages/dash_board_screen.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/model/dashboard_model.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/notifications/pages/notification.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/orders/pages/cancel_order.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/orders/pages/complete_order.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/orders/pages/panding_order.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/screen/product_screen.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/earnings/pages/earning.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/products/pages/show_all_products.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/schedule/model/schedule.dart';
 import '../../responsive_layout/responsive_layout.dart';
 
@@ -30,14 +37,14 @@ class DashboardPageState extends State<DashboardPage> {
   final List<Widget> _screens = [
     const DashBoardScreen(), // 0: Dashboard
     ProductFormScreen(), // 1: Add Product
-   Productsschedule() ,// 2: Schedule Product
+    Productsschedule(), // 2: Schedule Product
     ShowAllProducts(), // 3: All Products
     BiddingScreen(), // 4: All Biddings
     EarningScreen(), // 5: Earnings
-    Container(), // 6: Pending Order
-    Container(), // 7: Cancel Orders
-    Container(), // 8: Completed Orderaa
-    Container(), // 9: Customers
+    PandingOrderScreen(), // 6: Pending Order
+    CancelOrderScreen(), // 7: Cancel Orders
+    CompleteOrderScreen(), // 8: Completed Orderaa
+    ChatScreen(), // 9: Chat Screen
     Container(), //10: Discount
     Container(), //11: Notification Settings
     Container(), //12: Payment Methods
@@ -46,17 +53,19 @@ class DashboardPageState extends State<DashboardPage> {
     Container(), //15: Set Profile
     Container(), //16: Help and Supports
     Container(), //17: Logout
+    NotificationScreen(), //17: notificagtions
   ];
 
   String _getAppBarTitle(int index) {
     if (index == 0) return 'Dashboard';
     if (index >= 1 && index <= 5) return 'Products';
     if (index >= 6 && index <= 8) return 'Orders';
-    if (index == 9) return 'Customers';
+    if (index == 9) return 'Chat';
     if (index == 10) return 'Discount';
     if (index >= 11 && index <= 15) return 'Settings';
     if (index == 16) return 'Help and Supports';
     if (index == 17) return 'Logout';
+    if (index == 18) return 'Notifications';
     return 'Dashboard';
   }
 
@@ -81,7 +90,7 @@ class DashboardPageState extends State<DashboardPage> {
         return 7;
       case "Completed order":
         return 8;
-      case "Customers":
+      case "Chat":
         return 9;
       case "Discount":
         return 10;
@@ -99,6 +108,8 @@ class DashboardPageState extends State<DashboardPage> {
         return 16;
       case "Logout":
         return 17;
+      case "Notifications":
+        return 18;
       default:
         return 0;
     }
@@ -211,7 +222,9 @@ class DashboardPageState extends State<DashboardPage> {
                         ),
                         SizedBox(width: width * 0.015),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.pushNamed(AppRoute.notificationpage);
+                            },
                             icon: Badge(
                                 padding:
                                     const EdgeInsets.only(top: 5, right: 10),
@@ -349,7 +362,9 @@ class DashboardPageState extends State<DashboardPage> {
                   ),
                   SizedBox(width: width * 0.015),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pushNamed(AppRoute.notificationpage);
+                      },
                       icon: Badge(
                           padding: const EdgeInsets.only(top: 5, right: 10),
                           backgroundColor: colorScheme(context).error,
@@ -487,7 +502,9 @@ class DashboardPageState extends State<DashboardPage> {
                     ),
                     SizedBox(width: width * 0.015),
                     InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          context.pushNamed(AppRoute.notificationpage);
+                        },
                         child: Badge(
                             padding: const EdgeInsets.only(top: 5, right: 10),
                             backgroundColor: colorScheme(context).error,
@@ -562,7 +579,6 @@ class DashboardPageState extends State<DashboardPage> {
         return Consumer<DashboardProvider>(
           builder: (context, provider, child) {
             return ExpansionTile(
-              // tilePadding: EdgeInsets.zero,
               title: Text(
                 entry.title!,
                 style: textTheme(context).labelMedium?.copyWith(

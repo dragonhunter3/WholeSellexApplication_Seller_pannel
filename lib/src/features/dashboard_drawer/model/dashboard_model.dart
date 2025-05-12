@@ -19,7 +19,7 @@ List<EnteryModel> data = <EnteryModel>[
     EnteryModel("Cancel Orders"),
     EnteryModel("Completed order"),
   ]),
-  EnteryModel("Customers"),
+  EnteryModel("Chat"),
   EnteryModel("Discount"),
   EnteryModel("Settings", [
     EnteryModel("Notification Settings"),
