@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/chat/controller/chat_controller.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/chat/controller/select_user.dart';
 
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/categry_provider.dart';
@@ -34,9 +36,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
         ),
-          ChangeNotifierProvider(
-      create: (_) => ScheduleProvider(),),
-         ChangeNotifierProvider(
+        ChangeNotifierProvider(
+          create: (_) => ChatProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ScheduleProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SelectUser(),
+        ),
+        ChangeNotifierProvider(
           create: (_) => Category(),
         )
       ],
