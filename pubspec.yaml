@@ -43,6 +43,7 @@ dependencies:
   pie_chart: ^5.4.0
   tuple: ^2.0.2
   fl_chart: ^0.71.0
+  flutter_otp_text_field: ^1.5.1+1
 
 dev_dependencies:
   flutter_test:

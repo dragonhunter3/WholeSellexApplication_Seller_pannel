@@ -9,6 +9,8 @@ import 'package:whole_sellex_selleradmin_pannel/src/features/chat/pages/chat_pag
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard/pages/dash_board_screen.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/model/dashboard_model.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/help&supports/pages/help_and_support.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/logout/logout.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/notifications/pages/notification.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/orders/pages/cancel_order.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/orders/pages/complete_order.dart';
@@ -16,6 +18,9 @@ import 'package:whole_sellex_selleradmin_pannel/src/features/orders/pages/pandin
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/screen/product_screen.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/earnings/pages/earning.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/products/pages/show_all_products.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/settings/pages/notifications_settings.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/settings/pages/payment_setting.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/settings/pages/profile_setting.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/schedule/model/schedule.dart';
 import '../../responsive_layout/responsive_layout.dart';
@@ -46,13 +51,13 @@ class DashboardPageState extends State<DashboardPage> {
     CompleteOrderScreen(), // 8: Completed Orderaa
     ChatScreen(), // 9: Chat Screen
     Container(), //10: Discount
-    Container(), //11: Notification Settings
-    Container(), //12: Payment Methods
-    Container(), //13: Profile Settings
+    NotificationSetting(), //11: Notification Settings
+    AddPaymentMethodScreen(), //12: Payment Methods
+    ProfileSettingPage(), //13: Profile Settings
     Container(), //14: Change Password
     Container(), //15: Set Profile
-    Container(), //16: Help and Supports
-    Container(), //17: Logout
+    HelpSupportScreen(), //16: Help and Supports
+    LogoutScreen(), //17: Logout
     NotificationScreen(), //17: notificagtions
   ];
 
