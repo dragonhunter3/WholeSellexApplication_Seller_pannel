@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/auth/auth_wrapper.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/auth/pages/forget.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/auth/pages/login.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/auth/pages/sign_up_auth.dart';
@@ -12,7 +13,7 @@ import 'route_transition.dart';
 
 class MyAppRouter {
   static final router = GoRouter(
-    initialLocation: '/${AppRoute.loginpage}',
+    initialLocation: '/${AppRoute.authwrapperpage}',
     routes: [
       GoRoute(
         name: AppRoute.errorPage,
@@ -86,6 +87,15 @@ class MyAppRouter {
           child: ForgotPasswordScreen(),
         ),
       ),
+      GoRoute(
+        name: AppRoute.authwrapperpage,
+        path: '/${AppRoute.authwrapperpage}',
+        pageBuilder: (context, state) => buildPageWithFadeTransition<void>(
+          context: context,
+          state: state,
+          child: AuthWrapper(),
+        ),
+      ),
     ],
     errorPageBuilder: (context, state) {
       return const MaterialPage(child: ErrorPage());
@@ -109,4 +119,5 @@ class AppRoute {
   static const String signauth = "sign-up-auth";
   static const String loginpage = "login";
   static const String forget = "forget";
+  static const String authwrapperpage = "auth-wrapper";
 }

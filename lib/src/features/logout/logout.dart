@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/auth/auth_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/responsive_layout/responsive_layout.dart';
 
 class LogoutScreen extends StatelessWidget {
@@ -7,6 +9,7 @@ class LogoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvide>(context, listen: false);
     return Scaffold(
         body: LayoutBuilder(
       builder: (context, constraints) => ResponsiveLayout(
@@ -153,7 +156,9 @@ class LogoutScreen extends StatelessWidget {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          authProvider.signOut();
+                        },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(100, 40),
                           backgroundColor: Colors.redAccent,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/app_images.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfield.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/auth/auth_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/responsive_layout/responsive_layout.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
 
@@ -20,6 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+
+    final authProvider = Provider.of<AuthProvide>(context, listen: false);
     return Scaffold(
         body: LayoutBuilder(
       builder: (context, constraints) => ResponsiveLayout(
@@ -83,31 +87,24 @@ class _LoginScreenState extends State<LoginScreen> {
                             ?.copyWith(color: Colors.white)),
                   ),
                 ),
-                onTap: () {
-                  context.pushNamed(AppRoute.signup);
+                onTap: () async {
+                  try {
+                    await authProvider.signIn(
+                        emailController.text, passwordController.text);
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Login Failed: $e')));
+                  }
                 },
               ),
               SizedBox(
                 height: 20,
               ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black,
-                        spreadRadius: 0,
-                        blurRadius: 1,
-                      ),
-                    ]),
-                child: (Image.asset(
-                  AppImages.google,
-                  height: 25,
-                  width: 25,
-                )),
-              ),
+              TextButton(
+                  onPressed: () {
+                    context.pushNamed(AppRoute.signup);
+                  },
+                  child: Text("Crate New Account"))
             ],
           ),
         ),
@@ -179,31 +176,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ?.copyWith(color: Colors.white)),
                       ),
                     ),
-                    onTap: () {
-                      context.pushNamed(AppRoute.signup);
+                    onTap: () async {
+                      try {
+                        await authProvider.signIn(
+                            emailController.text, passwordController.text);
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Login Failed: $e')));
+                      }
                     },
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black,
-                            spreadRadius: 0,
-                            blurRadius: 1,
-                          ),
-                        ]),
-                    child: (Image.asset(
-                      AppImages.google,
-                      height: 25,
-                      width: 25,
-                    )),
-                  ),
+                  TextButton(
+                      onPressed: () {
+                        context.pushNamed(AppRoute.signup);
+                      },
+                      child: Text("Crate New Account"))
                 ],
               ),
             ],
@@ -277,31 +267,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ?.copyWith(color: Colors.white)),
                       ),
                     ),
-                    onTap: () {
-                      context.pushNamed(AppRoute.signup);
+                    onTap: () async {
+                      try {
+                        await authProvider.signIn(
+                            emailController.text, passwordController.text);
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Login Failed: $e')));
+                      }
                     },
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black,
-                            spreadRadius: 0,
-                            blurRadius: 1,
-                          ),
-                        ]),
-                    child: (Image.asset(
-                      AppImages.google,
-                      height: 25,
-                      width: 25,
-                    )),
-                  ),
+                  TextButton(
+                      onPressed: () {
+                        context.pushNamed(AppRoute.signup);
+                      },
+                      child: Text("Crate New Account"))
                 ],
               ),
             ],

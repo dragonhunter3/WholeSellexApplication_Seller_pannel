@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/app_images.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfield.dart';
-import 'package:whole_sellex_selleradmin_pannel/src/features/auth/pages/sign_up_auth.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/auth/auth_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/responsive_layout/responsive_layout.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
 
@@ -16,10 +17,13 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+
+    final authProvider = Provider.of<AuthProvide>(context, listen: false);
     return Scaffold(
         body: LayoutBuilder(
       builder: (context, constraints) => ResponsiveLayout(
@@ -94,10 +98,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               .labelLarge
                               ?.copyWith(color: Colors.white))),
                 ),
-                onTap: () {
-                  context.pushNamed(AppRoute.signauth);
+                onTap: () async {
+                  try {
+                    await authProvider.signUp(
+                        emailController.text, passwordController.text);
+                    Navigator.pop(context);
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Sign Up Failed: $e')));
+                  }
                 },
               ),
+              TextButton(
+                  onPressed: () {
+                    context.pushNamed(AppRoute.loginpage);
+                  },
+                  child: Text("Login Your account"))
             ],
           ),
         ),
@@ -180,13 +196,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   .labelMedium
                                   ?.copyWith(color: Colors.white))),
                     ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => SignUpAthenticate())));
+                    onTap: () async {
+                      try {
+                        await authProvider.signUp(
+                            emailController.text, passwordController.text);
+                        Navigator.pop(context);
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Sign Up Failed: $e')));
+                      }
                     },
                   ),
+                  TextButton(
+                      onPressed: () {
+                        context.pushNamed(AppRoute.loginpage);
+                      },
+                      child: Text("Login Your account"))
                 ],
               ),
             ],
@@ -257,6 +282,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(
                     height: 30,
                   ),
+                  SizedBox(
+                      width: 300,
+                      child: CustomTextFormField(
+                        hint: "Enter your password",
+                        fillColor: colorScheme(context).onPrimary,
+                        controller: passwordController,
+                      )),
+                  SizedBox(
+                    height: 30,
+                  ),
                   InkWell(
                     child: Container(
                       height: 50,
@@ -271,13 +306,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   .labelMedium
                                   ?.copyWith(color: Colors.white))),
                     ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => SignUpAthenticate())));
+                    onTap: () async {
+                      try {
+                        await authProvider.signUp(
+                            emailController.text, passwordController.text);
+                        Navigator.pop(
+                            context); // Optional: go back to login or home
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Sign Up Failed: $e')));
+                      }
                     },
                   ),
+                  TextButton(
+                      onPressed: () {
+                        context.pushNamed(AppRoute.loginpage);
+                      },
+                      child: Text("Login Your account"))
                 ],
               ),
             ],

@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/auth/auth_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/chat/controller/chat_controller.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/chat/controller/select_user.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
@@ -60,6 +62,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => SwitchProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AuthProvide(),
         )
       ],
       child: MaterialApp.router(
