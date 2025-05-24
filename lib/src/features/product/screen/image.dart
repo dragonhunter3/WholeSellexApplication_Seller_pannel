@@ -1,9 +1,9 @@
-
 import 'dart:typed_data';
-import 'dart:io' as io;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/image_provider.dart';
 
 class ImageUploadBox extends StatefulWidget {
   const ImageUploadBox({super.key});
@@ -13,9 +13,6 @@ class ImageUploadBox extends StatefulWidget {
 }
 
 class _ImageUploadBoxState extends State<ImageUploadBox> {
-  Uint8List? _webImage;
-  io.File? _pickedFile;
-
   Future<void> pickImage() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.image,
@@ -23,41 +20,42 @@ class _ImageUploadBoxState extends State<ImageUploadBox> {
     );
 
     if (result != null && result.files.isNotEmpty) {
-      if (kIsWeb) {
-        setState(() {
-          _webImage = result.files.first.bytes;
-        });
-      } else {
-        setState(() {
-          _pickedFile = io.File(result.files.first.path!);
-        });
+      final imageController =
+          Provider.of<ImageController>(context, listen: false);
+      final fileName = result.files.first.name;
+      final fileBytes = result.files.first.bytes;
+      if (fileBytes != null) {
+        try {
+          await imageController.setImage(fileBytes, fileName);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Image uploaded successfully')),
+          );
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to upload image: $e')),
+          );
+        }
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final imageProvider = Provider.of<ImageController>(context);
     const double containerHeight = 200;
     const double containerWidth = double.infinity;
 
     Widget imageWidget;
 
-    if ((kIsWeb && _webImage != null) || (!kIsWeb && _pickedFile != null)) {
+    if (imageProvider.selectedImage != null) {
       imageWidget = ClipRRect(
         borderRadius: BorderRadius.circular(10),
-        child: kIsWeb
-            ? Image.memory(
-                _webImage!,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: containerHeight,
-              )
-            : Image.file(
-                _pickedFile!,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: containerHeight,
-              ),
+        child: Image.memory(
+          imageProvider.selectedImage!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: containerHeight,
+        ),
       );
     } else {
       imageWidget = Column(
@@ -76,16 +74,15 @@ class _ImageUploadBoxState extends State<ImageUploadBox> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        
         Row(
-          children: [
-            const Text(
+          children: const [
+            Text(
               'Cover Image',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-       
-         SizedBox(width: 6),
-              Icon(Icons.error_outline, color: Colors.black, size: 18), ],
+            SizedBox(width: 6),
+            Icon(Icons.error_outline, color: Colors.black, size: 18),
+          ],
         ),
         const SizedBox(height: 10),
         GestureDetector(

@@ -11,9 +11,21 @@ class ProductNameAndImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    TextStyle? textStyle;
+    TextStyle? textStyle2;
+    if (screenWidth < 600) {
+      textStyle = textTheme(context).titleSmall;
+      textStyle2 = textTheme(context).bodyMedium;
+    } else if (screenWidth < 1024) {
+      textStyle = textTheme(context).bodyMedium;
+      textStyle2 = textTheme(context).bodySmall;
+    } else {
+      textStyle = textTheme(context).bodyMedium;
+      textStyle2 = textTheme(context).labelLarge;
+    }
     return Container(
       padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         color: colorScheme(context).onPrimary,
         borderRadius: BorderRadius.circular(12),
@@ -23,28 +35,19 @@ class ProductNameAndImageSection extends StatelessWidget {
         children: [
           Text(
             "Name & Images",
-            style: textTheme(context)
-                .bodyMedium
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: textStyle?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Row(
             children: [
               Text(
                 "Product Title",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: textStyle2?.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(width: 6),
               Icon(Icons.error_outline,
                   color: colorScheme(context).onSecondary, size: 18),
               SizedBox(width: 4),
-              Card.filled(
-                child: Text(
-                  "Max 100 characters. No HTML or emoji allowed.",
-                  style: TextStyle(
-                      fontSize: 12, color: colorScheme(context).onSecondary),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -52,6 +55,7 @@ class ProductNameAndImageSection extends StatelessWidget {
             controller: nameController,
             keyboardType: TextInputType.text,
             hint: "Enter product name",
+            fillColor: Colors.white,
             maxLength: 100,
             inputFormatters: [
               FilteringTextInputFormatter.deny(RegExp(r'[^\x00-\x7F]|<[^>]*>')),

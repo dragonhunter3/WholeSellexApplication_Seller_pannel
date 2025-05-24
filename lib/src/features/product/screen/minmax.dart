@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/app_colors.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
@@ -49,7 +47,7 @@ class _MinMaxFieldsState extends State<MinMaxFields> {
     }
   }
 
-  Widget _moneyIconBox() {
+  Widget _moneyIconBox(TextStyle? textStyle) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 1),
       child: Container(
@@ -60,9 +58,12 @@ class _MinMaxFieldsState extends State<MinMaxFields> {
           color: AppColor.appOrange,
           borderRadius: BorderRadius.circular(7),
         ),
-        child:  Align(
+        child: Align(
           alignment: Alignment.centerLeft,
-          child: Icon(Icons.attach_money, size: 20, color: colorScheme(context).onSecondary),
+          child: Text(
+            "PKR",
+            style: textStyle?.copyWith(fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
@@ -71,134 +72,165 @@ class _MinMaxFieldsState extends State<MinMaxFields> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final productProvider = Provider.of<ProductPro>(context);
 
-    return Consumer<ProductProvider>(
-      builder: (context, provider, _) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: colorScheme(context).onPrimary,
-              borderRadius: BorderRadius.circular(12),
+    TextStyle? textStyle;
+    TextStyle? textStyle2;
+    if (screenWidth < 600) {
+      textStyle = textTheme(context).titleSmall;
+      textStyle2 = textTheme(context).bodyMedium;
+    } else if (screenWidth < 1024) {
+      textStyle = textTheme(context).bodyMedium;
+      textStyle2 = textTheme(context).bodySmall;
+    } else {
+      textStyle = textTheme(context).bodyMedium;
+      textStyle2 = textTheme(context).labelLarge;
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: colorScheme(context).onPrimary,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Price",
+              style: textStyle?.copyWith(fontWeight: FontWeight.bold),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(height: 16),
+            Row(
               children: [
-  Text(
-            "Price",
-             style: textTheme(context)
-                                      .bodyMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-                
-                Row(
-                  children: [
-                     Text("Amount", style: TextStyle(fontWeight: FontWeight.bold)),  SizedBox(width: 6),
-              Icon(Icons.error_outline, color:colorScheme(context).onSecondary , size: 18),
-                  ],
+                Text(
+                  "Amount",
+                  style: textStyle2?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 6),
-                CustomTextFormField(
-                  controller: widget.priceController,
-                  keyboardType: TextInputType.number,
-                  hint: "0",
-                  prefixIcon: _moneyIconBox(),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                  ],
-                  prefixConstraints: const BoxConstraints(minHeight: 46, minWidth: 40),
+                const SizedBox(width: 6),
+                Icon(
+                  Icons.error_outline,
+                  color: colorScheme(context).onSecondary,
+                  size: 18,
                 ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Enable Min/Max Amount",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Switch(
-                      value: provider.settingEnabled,
-                      onChanged: provider.toggleSetting,
-                    ),
-                  ],
-                ),
-                if (provider.settingEnabled)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 6),
-                      screenWidth < 500
-                          ? Column(
-                              children: [
-                                CustomTextFormField(
-                                  controller: widget.minController,
-                                  keyboardType: TextInputType.number,
-                                  hint: "min",
-                                  prefixIcon: _moneyIconBox(),
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                                  ],
-                                  prefixConstraints: const BoxConstraints(minHeight: 46, minWidth: 40),
-                                ),
-                                const SizedBox(height: 10),
-                                CustomTextFormField(
-                                  controller: widget.maxController,
-                                  keyboardType: TextInputType.number,
-                                  hint: "max",
-                                  prefixIcon: _moneyIconBox(),
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                                  ],
-                                  prefixConstraints: const BoxConstraints(minHeight: 46, minWidth: 40),
-                                ),
-                              ],
-                            )
-                          : Row(
-                              children: [
-                                Expanded(
-                                  child: CustomTextFormField(
-                                    controller: widget.minController,
-                                    keyboardType: TextInputType.number,
-                                    hint: "min",
-                                    prefixIcon: _moneyIconBox(),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                                    ],
-                                    prefixConstraints: const BoxConstraints(minHeight: 46, minWidth: 40),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: CustomTextFormField(
-                                    controller: widget.maxController,
-                                    keyboardType: TextInputType.number,
-                                    hint: "max",
-                                    prefixIcon: _moneyIconBox(),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                                    ],
-                                    prefixConstraints: const BoxConstraints(minHeight: 46, minWidth: 40),
-                                  ),
-                                ),
-                              ],
-                            ),
-                      if (minMaxErrorText != null)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 6, left: 4),
-                          child: Text(
-                            minMaxErrorText!,
-                            style: const TextStyle(color: Colors.red, fontSize: 12),
-                          ),
-                        ),
-                    ],
-                  ),
               ],
             ),
-          ),
-        );
-      },
+            const SizedBox(height: 6),
+            CustomTextFormField(
+              controller: widget.priceController,
+              keyboardType: TextInputType.number,
+              hint: "0",
+              prefixIcon: _moneyIconBox(textStyle2),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+              ],
+              prefixConstraints:
+                  const BoxConstraints(minHeight: 46, minWidth: 40),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Enable Min/Max Amount",
+                  style: textStyle2?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                Switch(
+                  value: productProvider.settingEnabled,
+                  onChanged: productProvider.toggleSetting,
+                ),
+              ],
+            ),
+            if (productProvider.settingEnabled)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 6),
+                  screenWidth < 500
+                      ? Column(
+                          children: [
+                            CustomTextFormField(
+                              controller: widget.minController,
+                              keyboardType: TextInputType.number,
+                              hint: "min",
+                              prefixIcon: _moneyIconBox(textStyle2),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'^\d*\.?\d{0,2}')),
+                              ],
+                              prefixConstraints: const BoxConstraints(
+                                  minHeight: 46, minWidth: 40),
+                            ),
+                            const SizedBox(height: 10),
+                            CustomTextFormField(
+                              controller: widget.maxController,
+                              keyboardType: TextInputType.number,
+                              hint: "max",
+                              prefixIcon: _moneyIconBox(textStyle2),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'^\d*\.?\d{0,2}')),
+                              ],
+                              prefixConstraints: const BoxConstraints(
+                                  minHeight: 46, minWidth: 40),
+                            ),
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            Expanded(
+                              child: CustomTextFormField(
+                                controller: widget.minController,
+                                keyboardType: TextInputType.number,
+                                hint: "min",
+                                prefixIcon: _moneyIconBox(textStyle2),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d*\.?\d{0,2}')),
+                                ],
+                                prefixConstraints: const BoxConstraints(
+                                    minHeight: 46, minWidth: 40),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: CustomTextFormField(
+                                controller: widget.maxController,
+                                keyboardType: TextInputType.number,
+                                hint: "max",
+                                prefixIcon: _moneyIconBox(textStyle2),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d*\.?\d{0,2}')),
+                                ],
+                                prefixConstraints: const BoxConstraints(
+                                    minHeight: 46, minWidth: 40),
+                              ),
+                            ),
+                          ],
+                        ),
+                  if (minMaxErrorText != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6, left: 4),
+                      child: Text(
+                        minMaxErrorText!,
+                        style: const TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
+                ],
+              ),
+          ],
+        ),
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    widget.minController.removeListener(_validateMinMax);
+    widget.maxController.removeListener(_validateMinMax);
+    super.dispose();
   }
 }

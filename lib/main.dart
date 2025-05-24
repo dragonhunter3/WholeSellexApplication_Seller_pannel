@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,8 +5,12 @@ import 'package:whole_sellex_selleradmin_pannel/src/features/auth/auth_provider.
 import 'package:whole_sellex_selleradmin_pannel/src/features/chat/controller/chat_controller.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/chat/controller/select_user.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/dashboard_drawer/provider/dashboard_provider.dart';
-import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/categry_provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/categoryprovider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/date_provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/image_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/product_provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/schduke_provider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/switch_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/products/conteroller/controller.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/settings/controller/notification_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
@@ -46,7 +49,7 @@ class MyApp extends StatelessWidget {
           create: (_) => CategoryProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => ProductProvider(),
+          create: (_) => ProductPro(),
         ),
         ChangeNotifierProvider(
           create: (_) => ChatProvider(),
@@ -58,13 +61,22 @@ class MyApp extends StatelessWidget {
           create: (_) => SelectUser(),
         ),
         ChangeNotifierProvider(
-          create: (_) => Category(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => SwitchProvider(),
+          create: (_) => ProductCategory(),
         ),
         ChangeNotifierProvider(
           create: (_) => AuthProvide(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DatePicker(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SchedulePro(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ImageController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SwitchController(),
         )
       ],
       child: MaterialApp.router(
