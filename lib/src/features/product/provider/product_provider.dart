@@ -70,7 +70,6 @@ class ProductPro with ChangeNotifier {
       _scheduledProducts.add(product);
     }
 
-    // Save to Firestore
     await FirebaseFirestore.instance
         .collection('products')
         .doc(product.id)
