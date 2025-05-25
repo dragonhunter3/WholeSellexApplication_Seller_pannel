@@ -22,7 +22,7 @@ import 'package:whole_sellex_selleradmin_pannel/src/features/settings/pages/noti
 import 'package:whole_sellex_selleradmin_pannel/src/features/settings/pages/payment_setting.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/settings/pages/profile_setting.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
-import 'package:whole_sellex_selleradmin_pannel/src/schedule/model/schedule.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/schedule/pages/schedule.dart';
 import '../../responsive_layout/responsive_layout.dart';
 
 class DashboardPage extends StatefulWidget {

@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class _ImageUploadBoxState extends State<ImageUploadBox> {
       final fileBytes = result.files.first.bytes;
       if (fileBytes != null) {
         try {
-          await imageController.setImage(fileBytes, fileName);
+          await imageController.setImage(fileBytes, fileName, context);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Image uploaded successfully')),
           );

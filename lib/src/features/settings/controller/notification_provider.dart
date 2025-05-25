@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SwitchProvider extends ChangeNotifier {
+class NotificationProvider extends ChangeNotifier {
   List<bool> _switchValues = List.generate(4, (_) => false); // Initial values
 
   bool getSwitchValue(int index) => _switchValues[index];

@@ -35,7 +35,7 @@ class _NotificationSettingState extends State<NotificationSetting> {
                           .titleMedium
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
-                    Consumer<SwitchProvider>(
+                    Consumer<NotificationProvider>(
                       builder: (context, switchProvider, child) {
                         return ListView.builder(
                           shrinkWrap: true,
@@ -69,7 +69,7 @@ class _NotificationSettingState extends State<NotificationSetting> {
                           .titleSmall
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
-                    Consumer<SwitchProvider>(
+                    Consumer<NotificationProvider>(
                       builder: (context, switchProvider, child) {
                         return ListView.builder(
                           shrinkWrap: true,
@@ -103,7 +103,7 @@ class _NotificationSettingState extends State<NotificationSetting> {
                           .bodyLarge
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
-                    Consumer<SwitchProvider>(
+                    Consumer<NotificationProvider>(
                       builder: (context, switchProvider, child) {
                         return ListView.builder(
                           shrinkWrap: true,

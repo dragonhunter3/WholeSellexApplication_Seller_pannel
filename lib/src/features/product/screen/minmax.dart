@@ -52,7 +52,7 @@ class _MinMaxFieldsState extends State<MinMaxFields> {
       padding: const EdgeInsets.symmetric(horizontal: 1),
       child: Container(
         height: 46,
-        width: 45,
+        width: 60,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           color: AppColor.appOrange,

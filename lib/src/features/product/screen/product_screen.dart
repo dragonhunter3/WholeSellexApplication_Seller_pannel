@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_button.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfield.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/categoryprovider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/date_provider.dart';
@@ -113,6 +114,119 @@ class ProductFormScreen extends StatelessWidget {
                       SizedBox(height: 20),
                       ScheduleProduct(),
                     ],
+                    SizedBox(height: 10),
+                    CustomButton(
+                        onTap: () async {
+                          if (nameController.text.isEmpty ||
+                              detailController.text.isEmpty ||
+                              priceController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Please fill all required fields')),
+                            );
+                            return;
+                          }
+
+                          double? minPrice =
+                              double.tryParse(minController.text);
+                          double? maxPrice =
+                              double.tryParse(maxController.text);
+
+                          if (productProvider.settingEnabled &&
+                              (minPrice == null || maxPrice == null)) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Please enter valid min/max prices')),
+                            );
+                            return;
+                          }
+
+                          if (imageProvider.downloadUrl == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Please upload an image')),
+                            );
+                            return;
+                          }
+
+                          String category =
+                              switchProvider.getSwitchValue('switch3')
+                                  ? categoryController.text
+                                  : categoryProvider.selectedCategory ??
+                                      productProvider.categories[0];
+
+                          if (switchProvider.getSwitchValue('switch3') &&
+                              category.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Please enter a category name')),
+                            );
+                            return;
+                          }
+
+                          try {
+                            await productProvider.addProduct(
+                              title: nameController.text,
+                              description: detailController.text,
+                              imageUrl: imageProvider.downloadUrl!, // safe now
+                              price: double.parse(priceController.text),
+                              minPrice: productProvider.settingEnabled
+                                  ? minPrice
+                                  : null,
+                              maxPrice: productProvider.settingEnabled
+                                  ? maxPrice
+                                  : null,
+                              category: category,
+                              isBidding:
+                                  switchProvider.getSwitchValue('switch1'),
+                              biddingStartTime:
+                                  switchProvider.getSwitchValue('switch1')
+                                      ? dateProvider.currentDateTime
+                                      : null,
+                              biddingEndTime:
+                                  switchProvider.getSwitchValue('switch1')
+                                      ? dateProvider.selectedDate
+                                      : null,
+                              isScheduled:
+                                  switchProvider.getSwitchValue('switch2'),
+                              scheduleTime:
+                                  switchProvider.getSwitchValue('switch2')
+                                      ? scheduleProvider.selectedDate
+                                      : null,
+                            );
+
+                            if (switchProvider.getSwitchValue('switch3') &&
+                                category.isNotEmpty) {
+                              productProvider.addCategory(category);
+                            }
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Product added successfully')),
+                            );
+
+                            // Clear form
+                            nameController.clear();
+                            detailController.clear();
+                            priceController.clear();
+                            minController.clear();
+                            maxController.clear();
+                            categoryController.clear();
+                            imageProvider.clearImage();
+                            switchProvider.toggleSwitch('switch1', false);
+                            switchProvider.toggleSwitch('switch2', false);
+                            switchProvider.toggleSwitch('switch3', false);
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('Failed to add product: $e')),
+                            );
+                          }
+                        },
+                        text: "Add Product")
                   ],
                 ),
               ),
@@ -186,6 +300,110 @@ class ProductFormScreen extends StatelessWidget {
                       SizedBox(height: 20),
                       ScheduleProduct(),
                     ],
+                    SizedBox(height: 15),
+                    CustomButton(
+                        onTap: () async {
+                          if (nameController.text.isEmpty ||
+                              detailController.text.isEmpty ||
+                              priceController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Please fill all required fields')),
+                            );
+                            return;
+                          }
+
+                          double? minPrice =
+                              double.tryParse(minController.text);
+                          double? maxPrice =
+                              double.tryParse(maxController.text);
+                          if (productProvider.settingEnabled &&
+                              (minPrice == null || maxPrice == null)) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Please enter valid min/max prices')),
+                            );
+                            return;
+                          }
+
+                          String category =
+                              switchProvider.getSwitchValue('switch3')
+                                  ? categoryController.text
+                                  : categoryProvider.selectedCategory ??
+                                      productProvider.categories[0];
+
+                          if (switchProvider.getSwitchValue('switch3') &&
+                              category.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Please enter a category name')),
+                            );
+                            return;
+                          }
+
+                          try {
+                            await productProvider.addProduct(
+                              title: nameController.text,
+                              description: detailController.text,
+                              imageUrl: imageProvider.downloadUrl,
+                              price: double.parse(priceController.text),
+                              minPrice: productProvider.settingEnabled
+                                  ? minPrice
+                                  : null,
+                              maxPrice: productProvider.settingEnabled
+                                  ? maxPrice
+                                  : null,
+                              category: category,
+                              isBidding:
+                                  switchProvider.getSwitchValue('switch1'),
+                              biddingStartTime:
+                                  switchProvider.getSwitchValue('switch1')
+                                      ? dateProvider.currentDateTime
+                                      : null,
+                              biddingEndTime:
+                                  switchProvider.getSwitchValue('switch1')
+                                      ? dateProvider.selectedDate
+                                      : null,
+                              isScheduled:
+                                  switchProvider.getSwitchValue('switch2'),
+                              scheduleTime:
+                                  switchProvider.getSwitchValue('switch2')
+                                      ? scheduleProvider.selectedDate
+                                      : null,
+                            );
+
+                            if (switchProvider.getSwitchValue('switch3') &&
+                                category.isNotEmpty) {
+                              productProvider.addCategory(category);
+                            }
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Product added successfully')),
+                            );
+
+                            // Clear form
+                            nameController.clear();
+                            detailController.clear();
+                            priceController.clear();
+                            minController.clear();
+                            maxController.clear();
+                            categoryController.clear();
+                            imageProvider.clearImage();
+                            switchProvider.toggleSwitch('switch1', false);
+                            switchProvider.toggleSwitch('switch2', false);
+                            switchProvider.toggleSwitch('switch3', false);
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('Failed to add product: $e')),
+                            );
+                          }
+                        },
+                        text: "Add Product")
                   ],
                 ),
               ),
@@ -259,106 +477,109 @@ class ProductFormScreen extends StatelessWidget {
                       const ScheduleProduct(),
                     ],
                     const SizedBox(height: 30),
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (nameController.text.isEmpty ||
-                            detailController.text.isEmpty ||
-                            priceController.text.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('Please fill all required fields')),
-                          );
-                          return;
-                        }
-
-                        double? minPrice = double.tryParse(minController.text);
-                        double? maxPrice = double.tryParse(maxController.text);
-                        if (productProvider.settingEnabled &&
-                            (minPrice == null || maxPrice == null)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('Please enter valid min/max prices')),
-                          );
-                          return;
-                        }
-
-                        String category =
-                            switchProvider.getSwitchValue('switch3')
-                                ? categoryController.text
-                                : categoryProvider.selectedCategory ??
-                                    productProvider.categories[0];
-
-                        if (switchProvider.getSwitchValue('switch3') &&
-                            category.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Please enter a category name')),
-                          );
-                          return;
-                        }
-
-                        try {
-                          await productProvider.addProduct(
-                            title: nameController.text,
-                            description: detailController.text,
-                            imageUrl: imageProvider.downloadUrl,
-                            price: double.parse(priceController.text),
-                            minPrice: productProvider.settingEnabled
-                                ? minPrice
-                                : null,
-                            maxPrice: productProvider.settingEnabled
-                                ? maxPrice
-                                : null,
-                            category: category,
-                            isBidding: switchProvider.getSwitchValue('switch1'),
-                            biddingStartTime:
-                                switchProvider.getSwitchValue('switch1')
-                                    ? dateProvider.currentDateTime
-                                    : null,
-                            biddingEndTime:
-                                switchProvider.getSwitchValue('switch1')
-                                    ? dateProvider.selectedDate
-                                    : null,
-                            isScheduled:
-                                switchProvider.getSwitchValue('switch2'),
-                            scheduleTime:
-                                switchProvider.getSwitchValue('switch2')
-                                    ? scheduleProvider.selectedDate
-                                    : null,
-                          );
-
-                          if (switchProvider.getSwitchValue('switch3') &&
-                              category.isNotEmpty) {
-                            productProvider.addCategory(category);
+                    CustomButton(
+                        onTap: () async {
+                          if (nameController.text.isEmpty ||
+                              detailController.text.isEmpty ||
+                              priceController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Please fill all required fields')),
+                            );
+                            return;
                           }
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Product added successfully')),
-                          );
+                          double? minPrice =
+                              double.tryParse(minController.text);
+                          double? maxPrice =
+                              double.tryParse(maxController.text);
+                          if (productProvider.settingEnabled &&
+                              (minPrice == null || maxPrice == null)) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Please enter valid min/max prices')),
+                            );
+                            return;
+                          }
 
-                          // Clear form
-                          nameController.clear();
-                          detailController.clear();
-                          priceController.clear();
-                          minController.clear();
-                          maxController.clear();
-                          categoryController.clear();
-                          imageProvider.clearImage();
-                          switchProvider.toggleSwitch('switch1', false);
-                          switchProvider.toggleSwitch('switch2', false);
-                          switchProvider.toggleSwitch('switch3', false);
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('Failed to add product: $e')),
-                          );
-                        }
-                      },
-                      child: const Text('Add Product'),
-                    ),
+                          String category =
+                              switchProvider.getSwitchValue('switch3')
+                                  ? categoryController.text
+                                  : categoryProvider.selectedCategory ??
+                                      productProvider.categories[0];
+
+                          if (switchProvider.getSwitchValue('switch3') &&
+                              category.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Please enter a category name')),
+                            );
+                            return;
+                          }
+
+                          try {
+                            await productProvider.addProduct(
+                              title: nameController.text,
+                              description: detailController.text,
+                              imageUrl: imageProvider.downloadUrl,
+                              price: double.parse(priceController.text),
+                              minPrice: productProvider.settingEnabled
+                                  ? minPrice
+                                  : null,
+                              maxPrice: productProvider.settingEnabled
+                                  ? maxPrice
+                                  : null,
+                              category: category,
+                              isBidding:
+                                  switchProvider.getSwitchValue('switch1'),
+                              biddingStartTime:
+                                  switchProvider.getSwitchValue('switch1')
+                                      ? dateProvider.currentDateTime
+                                      : null,
+                              biddingEndTime:
+                                  switchProvider.getSwitchValue('switch1')
+                                      ? dateProvider.selectedDate
+                                      : null,
+                              isScheduled:
+                                  switchProvider.getSwitchValue('switch2'),
+                              scheduleTime:
+                                  switchProvider.getSwitchValue('switch2')
+                                      ? scheduleProvider.selectedDate
+                                      : null,
+                            );
+
+                            if (switchProvider.getSwitchValue('switch3') &&
+                                category.isNotEmpty) {
+                              productProvider.addCategory(category);
+                            }
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Product added successfully')),
+                            );
+
+                            // Clear form
+                            nameController.clear();
+                            detailController.clear();
+                            priceController.clear();
+                            minController.clear();
+                            maxController.clear();
+                            categoryController.clear();
+                            imageProvider.clearImage();
+                            switchProvider.toggleSwitch('switch1', false);
+                            switchProvider.toggleSwitch('switch2', false);
+                            switchProvider.toggleSwitch('switch3', false);
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('Failed to add product: $e')),
+                            );
+                          }
+                        },
+                        text: "Add Product")
                   ],
                 ),
               ),

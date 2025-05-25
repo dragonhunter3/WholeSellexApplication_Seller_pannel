@@ -10,7 +10,8 @@ class ImageController with ChangeNotifier {
   Uint8List? get selectedImage => _selectedImage;
   String? get downloadUrl => _downloadUrl;
 
-  Future<void> setImage(Uint8List? image, String fileName) async {
+  Future<void> setImage(
+      Uint8List? image, String fileName, BuildContext context) async {
     if (image == null) {
       _selectedImage = null;
       _downloadUrl = null;
@@ -27,10 +28,20 @@ class ImageController with ChangeNotifier {
           image, SettableMetadata(contentType: 'image/jpeg'));
       final snapshot = await uploadTask;
       _downloadUrl = await snapshot.ref.getDownloadURL();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Image uploaded successfully!')),
+      );
+
       notifyListeners();
     } catch (e) {
       print('Error uploading image to Firebase Storage: $e');
       _downloadUrl = null;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to upload image: $e')),
+      );
+
       notifyListeners();
       rethrow;
     }

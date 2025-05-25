@@ -46,4 +46,28 @@ class Product {
       'scheduleTime': scheduleTime?.toIso8601String(),
     };
   }
+
+  factory Product.fromFirestore(Map<String, dynamic> data, String id) {
+    return Product(
+      id: id,
+      title: data['title'] ?? '',
+      description: data['description'] ?? '',
+      imageUrl: data['imageUrl'],
+      price: (data['price'] ?? 0).toDouble(),
+      minPrice: data['minPrice']?.toDouble(),
+      maxPrice: data['maxPrice']?.toDouble(),
+      category: data['category'] ?? '',
+      isBidding: data['isBidding'] ?? false,
+      biddingStartTime: data['biddingStartTime'] != null
+          ? DateTime.tryParse(data['biddingStartTime'])
+          : null,
+      biddingEndTime: data['biddingEndTime'] != null
+          ? DateTime.tryParse(data['biddingEndTime'])
+          : null,
+      isScheduled: data['isScheduled'] ?? false,
+      scheduleTime: data['scheduleTime'] != null
+          ? DateTime.tryParse(data['scheduleTime'])
+          : null,
+    );
+  }
 }

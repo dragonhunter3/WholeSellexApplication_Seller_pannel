@@ -12,9 +12,10 @@ import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/pr
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/schduke_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/product/provider/switch_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/products/conteroller/controller.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/products/conteroller/show_all_products_controller.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/settings/controller/notification_provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/routes/go_route.dart';
-import 'package:whole_sellex_selleradmin_pannel/src/schedule/model/provider/scheduleprovider.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/schedule/provider/scheduleprovider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/theme/theme.dart';
 
 void main() async {
@@ -77,7 +78,13 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => SwitchController(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ShowAllProductsController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => NotificationProvider(),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

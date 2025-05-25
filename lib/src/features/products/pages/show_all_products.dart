@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_button.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfield.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/products/conteroller/controller.dart';
-import 'package:whole_sellex_selleradmin_pannel/src/features/products/model/model.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/products/conteroller/show_all_products_controller.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/responsive_layout/responsive_layout.dart';
 
 class ShowAllProducts extends StatefulWidget {
@@ -20,9 +21,18 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
   var height;
   var width;
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() =>
+        Provider.of<ShowAllProductsController>(context, listen: false)
+            .fetchProducts());
+  }
+
+  @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -79,7 +89,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                     SizedBox(height: 20),
                     customCategorybutton(),
                     SizedBox(height: 20),
-                    customTable()
+                    customTable(context)
                   ],
                 ),
               ),
@@ -131,7 +141,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                   SizedBox(height: 20),
                   customCategorybutton(),
                   SizedBox(height: 20),
-                  customTable()
+                  customTable(context)
                 ],
               ),
             ),
@@ -182,7 +192,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                   SizedBox(height: 20),
                   customCategorybutton(),
                   SizedBox(height: 20),
-                  customTable()
+                  customTable(context)
                 ],
               ),
             ),
@@ -283,16 +293,33 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
     );
   }
 
-  Widget customTable() {
+  Widget customTable(BuildContext context) {
+    final controller = Provider.of<ShowAllProductsController>(context);
+    final products = controller.visibleProducts;
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     TextStyle? textStyle;
     if (width < 600) {
-      textStyle = textTheme(context).bodyMedium;
+      textStyle = Theme.of(context).textTheme.bodyMedium;
     } else if (width < 1024) {
-      textStyle = textTheme(context).labelLarge;
+      textStyle = Theme.of(context).textTheme.labelLarge;
     } else {
-      textStyle = textTheme(context).labelMedium;
+      textStyle = Theme.of(context).textTheme.labelMedium;
     }
+
+    if (controller.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (controller.error != null) {
+      return Center(child: Text(controller.error!, style: textStyle));
+    }
+
+    if (products.isEmpty) {
+      return Center(child: Text('No products found', style: textStyle));
+    }
+
     return SizedBox(
       height: height * 0.5,
       width: width,
@@ -301,96 +328,112 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
         child: DataTable(
           headingRowColor: MaterialStateProperty.all(Colors.grey.shade200),
           columns: [
-            DataColumn(
-                label: Text("Image",
-                    style: textStyle?.copyWith(fontWeight: FontWeight.bold))),
-            DataColumn(
-                label: Text("Product\nName",
-                    style: textStyle?.copyWith(fontWeight: FontWeight.bold))),
-            DataColumn(
-                label: Text("Status",
-                    style: textStyle?.copyWith(fontWeight: FontWeight.bold))),
-            DataColumn(
-                label: Text("Stock",
-                    style: textStyle?.copyWith(fontWeight: FontWeight.bold))),
-            DataColumn(
-                label: Text("Price",
-                    style: textStyle?.copyWith(fontWeight: FontWeight.bold))),
-            DataColumn(
-                label: Text("Date",
-                    style: textStyle?.copyWith(fontWeight: FontWeight.bold))),
-            DataColumn(
-                label: Text("Action",
-                    style: textStyle?.copyWith(fontWeight: FontWeight.bold))),
+            DataColumn(label: Text("Image", style: textStyle)),
+            DataColumn(label: Text("Product\nName", style: textStyle)),
+            DataColumn(label: Text("Status", style: textStyle)),
+            DataColumn(label: Text("Stock", style: textStyle)),
+            DataColumn(label: Text("Price", style: textStyle)),
+            DataColumn(label: Text("Date", style: textStyle)),
+            DataColumn(label: Text("Action", style: textStyle)),
           ],
-          rows: product.map((product) {
+          rows: products.asMap().entries.map((entry) {
+            final index = entry.key;
+            final product = entry.value;
             return DataRow(cells: [
-              DataCell(Image.asset(
-                product.image,
-                width: 40,
-                height: 40,
+              DataCell(
+                product.imageUrl != null && product.imageUrl!.isNotEmpty
+                    ? Image.network(
+                        product.imageUrl!,
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          print(
+                              'Image load error for ${product.imageUrl}: $error');
+                          return const Icon(Icons.image_not_supported);
+                        },
+                      )
+                    : const Icon(Icons.image_not_supported),
+              ),
+              DataCell(Text(product.title, style: textStyle)),
+              DataCell(Text(product.isBidding ? 'Bidding' : 'Simple',
+                  style: textStyle)),
+              DataCell(Text("N/A", style: textStyle)),
+              DataCell(Text('Rs ${product.price.toStringAsFixed(2)}',
+                  style: textStyle)),
+              DataCell(Text(
+                product.scheduleTime != null
+                    ? DateFormat('yyyy-MM-dd').format(product.scheduleTime!)
+                    : 'N/A',
+                style: textStyle,
               )),
-              DataCell(Text(product.productName, style: textStyle)),
-              DataCell(Text(product.status, style: textStyle)),
-              DataCell(Text(product.stock, style: textStyle)),
-              DataCell(Text('Rs ${product.price}', style: textStyle)),
-              DataCell(Text(product.date, style: textStyle)),
               DataCell(Row(
                 children: [
                   GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Dialog(
-                              alignment: Alignment.centerRight,
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                height: 150,
-                                width: 200,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "You wanna Delete This item",
-                                      style: textStyle,
-                                    ),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        SizedBox(
-                                          height: 40,
-                                          width: 80,
-                                          child: CustomButton(
-                                              onTap: () {},
-                                              text: "Yes",
-                                              borderRadius: 5),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              height: 150,
+                              width: 200,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("You want to delete this item?",
+                                      style: textStyle),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SizedBox(
+                                        height: 40,
+                                        width: 80,
+                                        child: CustomButton(
+                                          onTap: () {
+                                            controller.deleteProduct(index);
+                                            Navigator.pop(context);
+                                          },
+                                          text: "Yes",
+                                          borderRadius: 5,
                                         ),
-                                        SizedBox(
-                                          height: 40,
-                                          width: 80,
-                                          child: CustomButton(
-                                              onTap: () {
-                                                context.pop();
-                                              },
-                                              text: "No",
-                                              borderRadius: 5),
+                                      ),
+                                      SizedBox(
+                                        height: 40,
+                                        width: 80,
+                                        child: CustomButton(
+                                          onTap: () => Navigator.pop(context),
+                                          text: "No",
+                                          borderRadius: 5,
                                         ),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        );
-                      },
-                      child: Icon(Icons.delete_outline)),
-                  SizedBox(width: 10),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: const Icon(Icons.delete_outline),
+                  ),
+                  const SizedBox(width: 10),
                   GestureDetector(
-                      onTap: () {}, child: Icon(Icons.edit_outlined))
+                    onTap: () {
+                      // Implement edit functionality here
+                    },
+                    child: const Icon(Icons.edit_outlined),
+                  ),
                 ],
               )),
             ]);
