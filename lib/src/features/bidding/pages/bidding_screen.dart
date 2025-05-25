@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/app_colors.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/app_images.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_button.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfield.dart';
+import 'package:whole_sellex_selleradmin_pannel/src/features/products/conteroller/show_all_products_controller.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/responsive_layout/responsive_layout.dart';
 
 class BiddingScreen extends StatefulWidget {
@@ -16,6 +18,14 @@ class BiddingScreen extends StatefulWidget {
 class _BiddingScreenState extends State<BiddingScreen> {
   var height;
   var width;
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() =>
+        Provider.of<ShowAllProductsController>(context, listen: false)
+            .fetchProducts());
+  }
+
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -76,8 +86,7 @@ class _BiddingScreenState extends State<BiddingScreen> {
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),
-                            customTile("Kidd Gamming", "Remaning Time ",
-                                " 23 mint", () {}),
+                            customTile(),
                             SizedBox(height: 15),
                             Text(
                               "Schdule Bidding Products",
@@ -86,8 +95,7 @@ class _BiddingScreenState extends State<BiddingScreen> {
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),
-                            customTile("Kidd Gamming", "Remaning Time ",
-                                " 23 mint", () {}),
+                            customTile(),
                           ],
                         ),
                       ),
@@ -184,8 +192,7 @@ class _BiddingScreenState extends State<BiddingScreen> {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 10),
-                          customTile("Kidd Gamming", "Remaning Time ",
-                              " 23 mint", () {}),
+                          customTile(),
                           SizedBox(height: 15),
                           Text(
                             "Schdule Bidding Products",
@@ -194,8 +201,7 @@ class _BiddingScreenState extends State<BiddingScreen> {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 10),
-                          customTile("Kidd Gamming", "Remaning Time ",
-                              " 23 mint", () {}),
+                          customTile(),
                         ],
                       ),
                     ),
@@ -290,8 +296,7 @@ class _BiddingScreenState extends State<BiddingScreen> {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 10),
-                          customTile("Kidd Gamming", "Remaning Time ",
-                              " 23 mint", () {}),
+                          customTile(),
                           SizedBox(height: 15),
                           Text(
                             "Schdule Bidding Products",
@@ -300,8 +305,7 @@ class _BiddingScreenState extends State<BiddingScreen> {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 10),
-                          customTile("Kidd Gamming", "Remaning Time ",
-                              " 23 mint", () {}),
+                          customTile(),
                         ],
                       ),
                     ),
@@ -353,8 +357,11 @@ class _BiddingScreenState extends State<BiddingScreen> {
     );
   }
 
-  Widget customTile(
-      String title, String subtitle, String time, VoidCallback ontap) {
+  Widget customTile() {
+    final controller = Provider.of<ShowAllProductsController>(context);
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     TextStyle? textStyle;
     if (width < 600) {
       textStyle = textTheme(context).bodySmall;
@@ -363,34 +370,65 @@ class _BiddingScreenState extends State<BiddingScreen> {
     } else {
       textStyle = textTheme(context).labelMedium;
     }
+
     return SizedBox(
       height: height * 0.5,
       width: width,
-      child: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: Image.asset(
-              AppImages.game,
-              cacheHeight: 50,
-              cacheWidth: 50,
-            ),
-            title: Text(title,
-                style: textStyle?.copyWith(fontWeight: FontWeight.bold)),
-            subtitle: RichText(
-                text: TextSpan(
-                    text: subtitle,
-                    style: textStyle?.copyWith(color: AppColor.appGreen),
-                    children: [
-                  TextSpan(
-                      text: time,
-                      style: textStyle?.copyWith(color: AppColor.appDarkGrey))
-                ])),
-            trailing: GestureDetector(
-                onTap: ontap, child: Icon(Icons.more_vert_outlined, size: 14)),
-          );
-        },
-      ),
+      child: controller.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : controller.error != null
+              ? Center(
+                  child: Text(controller.error!,
+                      style: textStyle?.copyWith(color: Colors.red)))
+              : controller.visibleProducts.isEmpty
+                  ? Center(
+                      child: Text('No bidding products available',
+                          style: textStyle))
+                  : ListView.builder(
+                      itemCount: controller.visibleProducts.length,
+                      itemBuilder: (context, index) {
+                        final product = controller.visibleProducts[index];
+                        return ListTile(
+                          leading: product.imageUrl != null
+                              ? Image.network(
+                                  product.imageUrl!,
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Icon(Icons.error, size: 50),
+                                )
+                              : const Icon(Icons.image_not_supported, size: 50),
+                          title: Text(
+                            product.title,
+                            style: textStyle?.copyWith(
+                                fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: RichText(
+                            text: TextSpan(
+                              text: product.description,
+                              style:
+                                  textStyle?.copyWith(color: AppColor.appGreen),
+                              children: [
+                                TextSpan(
+                                  text: product.biddingEndTime != null
+                                      ? ' Ends: ${product.biddingEndTime!.toString().substring(0, 16)}'
+                                      : ' No end time',
+                                  style: textStyle?.copyWith(
+                                      color: AppColor.appDarkGrey),
+                                ),
+                              ],
+                            ),
+                          ),
+                          trailing: GestureDetector(
+                            onTap: () {
+                              controller.deleteProduct(index);
+                            },
+                            child: const Icon(Icons.delete, size: 14),
+                          ),
+                        );
+                      },
+                    ),
     );
   }
 }

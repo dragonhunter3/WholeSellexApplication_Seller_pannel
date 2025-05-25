@@ -13,6 +13,23 @@ class ShowAllProductsController with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
 
+  Future<void> fetchBiddingProducts() async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      final fetched = await AllProductServices.fetchBiddingProducts();
+      _products = fetched;
+      _selections = List.generate(_products.length, (_) => false);
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> fetchProducts() async {
     notifyListeners();
 
