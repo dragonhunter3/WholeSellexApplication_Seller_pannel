@@ -21,7 +21,7 @@ class ScheduleProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final fetched = await ProductService.fetchScheduledProducts();
+      final fetched = await AllProductServices.fetchScheduledProducts();
       _products = fetched;
       _selections = List.generate(_products.length, (_) => false);
       _hasMore = false;

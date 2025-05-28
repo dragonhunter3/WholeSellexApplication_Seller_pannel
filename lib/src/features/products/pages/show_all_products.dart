@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/common/constants/global_variables.dart';
@@ -7,6 +6,7 @@ import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_button
 import 'package:whole_sellex_selleradmin_pannel/src/common/widgets/custom_textfield.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/products/conteroller/controller.dart';
 import 'package:whole_sellex_selleradmin_pannel/src/features/products/conteroller/show_all_products_controller.dart';
+
 import 'package:whole_sellex_selleradmin_pannel/src/features/responsive_layout/responsive_layout.dart';
 
 class ShowAllProducts extends StatefulWidget {
@@ -18,8 +18,7 @@ class ShowAllProducts extends StatefulWidget {
 
 class _ShowAllProductsState extends State<ShowAllProducts> {
   TextEditingController controller = TextEditingController();
-  var height;
-  var width;
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +27,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
             .fetchProducts());
   }
 
+  var height, width;
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
@@ -202,6 +202,49 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
     );
   }
 
+  Widget customCategorybutton() {
+    final width = MediaQuery.of(context).size.width;
+    TextStyle? textStyle;
+    if (width < 600) {
+      textStyle = Theme.of(context).textTheme.bodySmall;
+    } else if (width < 1024) {
+      textStyle = Theme.of(context).textTheme.labelLarge;
+    } else {
+      textStyle = Theme.of(context).textTheme.labelMedium;
+    }
+    final provider = Provider.of<CategoryProvider>(context);
+    final selected = provider.selectedCategory;
+    final list = provider.categoryList;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Theme.of(context).colorScheme.onSurface),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: selected,
+          icon: const Icon(Icons.arrow_drop_down),
+          dropdownColor: Colors.white,
+          style: textStyle,
+          onChanged: (String? value) {
+            if (value != null) {
+              provider.setSelectedCategory(value);
+            }
+          },
+          items: list.map((String category) {
+            return DropdownMenuItem<String>(
+              value: category,
+              child: Text(category, style: textStyle),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
   Widget customDropdownButton() {
     final width = MediaQuery.of(context).size.width;
     TextStyle? textStyle;
@@ -243,49 +286,6 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                 date,
                 style: textStyle,
               ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  Widget customCategorybutton() {
-    final width = MediaQuery.of(context).size.width;
-    TextStyle? textStyle;
-    if (width < 600) {
-      textStyle = textTheme(context).bodySmall;
-    } else if (width < 1024) {
-      textStyle = textTheme(context).labelLarge;
-    } else {
-      textStyle = textTheme(context).labelMedium;
-    }
-    final provider = Provider.of<CategoryProvider>(context);
-    final selected = provider.selectedCategory;
-    final list = provider.categoryList;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: colorScheme(context).onSurface),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: selected,
-          icon: const Icon(Icons.arrow_drop_down),
-          dropdownColor: Colors.white,
-          style: textStyle,
-          onChanged: (String? value) {
-            if (value != null) {
-              provider.setSelectedCategory(value);
-            }
-          },
-          items: list.map((String category) {
-            return DropdownMenuItem<String>(
-              value: category,
-              child: Text(category, style: textStyle),
             );
           }).toList(),
         ),

@@ -63,9 +63,6 @@ class MyApp extends StatelessWidget {
           create: (_) => SelectUser(),
         ),
         ChangeNotifierProvider(
-          create: (_) => ProductCategory(),
-        ),
-        ChangeNotifierProvider(
           create: (_) => AuthProvide(),
         ),
         ChangeNotifierProvider(

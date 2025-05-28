@@ -10,28 +10,35 @@ class AllProductServices {
       return snapshot.docs.map((doc) {
         final data = doc.data();
         return Product(
-          id: data['id'],
-          title: data['title'],
-          description: data['description'],
-          imageUrl: data['imageUrl'],
-          price: (data['price'] as num).toDouble(),
+          id: data['id'] as String? ?? 'default_id',
+          title: data['title'] as String? ?? 'Untitled',
+          description: data['description'] as String? ?? 'No description',
+          imageUrl:
+              data['imageUrl'] != null ? data['imageUrl'] as String : null,
+          price:
+              (data['price'] is num) ? (data['price'] as num).toDouble() : 0.0,
           minPrice: data['minPrice'] != null
-              ? (data['minPrice'] as num).toDouble()
+              ? (data['minPrice'] is num)
+                  ? (data['minPrice'] as num).toDouble()
+                  : null
               : null,
           maxPrice: data['maxPrice'] != null
-              ? (data['maxPrice'] as num).toDouble()
+              ? (data['maxPrice'] is num)
+                  ? (data['maxPrice'] as num).toDouble()
+                  : null
               : null,
-          category: data['category'],
-          isBidding: data['isBidding'] ?? false,
+          category: data['category'] as String? ?? 'Uncategorized',
+          subCategory: data['subCategory'] as String? ?? 'Uncategorized',
+          isBidding: data['isBidding'] as bool? ?? false,
           biddingStartTime: data['biddingStartTime'] != null
-              ? DateTime.parse(data['biddingStartTime'])
+              ? DateTime.parse(data['biddingStartTime'] as String)
               : null,
           biddingEndTime: data['biddingEndTime'] != null
-              ? DateTime.parse(data['biddingEndTime'])
+              ? DateTime.parse(data['biddingEndTime'] as String)
               : null,
-          isScheduled: data['isScheduled'] ?? false,
+          isScheduled: data['isScheduled'] as bool? ?? false,
           scheduleTime: data['scheduleTime'] != null
-              ? DateTime.parse(data['scheduleTime'])
+              ? DateTime.parse(data['scheduleTime'] as String)
               : null,
         );
       }).toList();
@@ -44,6 +51,15 @@ class AllProductServices {
     try {
       await FirebaseFirestore.instance
           .collection('products')
+          .doc(productId)
+          .delete();
+      // Optionally delete from bidding_products and scheduled_products if needed
+      await FirebaseFirestore.instance
+          .collection('bidding_products')
+          .doc(productId)
+          .delete();
+      await FirebaseFirestore.instance
+          .collection('scheduled_products')
           .doc(productId)
           .delete();
     } catch (e) {
@@ -59,28 +75,31 @@ class AllProductServices {
       return snapshot.docs.map((doc) {
         final data = doc.data();
         return Product(
-          id: data['id'],
-          title: data['title'],
-          description: data['description'],
-          imageUrl: data['imageUrl'],
-          price: (data['price'] as num).toDouble(),
+          id: data['id'] as String? ?? 'default_id',
+          title: data['title'] as String? ?? 'Untitled',
+          description: data['description'] as String? ?? 'No description',
+          imageUrl:
+              data['imageUrl'] != null ? data['imageUrl'] as String : null,
+          price:
+              (data['price'] is num) ? (data['price'] as num).toDouble() : 0.0,
           minPrice: data['minPrice'] != null
               ? (data['minPrice'] as num).toDouble()
               : null,
           maxPrice: data['maxPrice'] != null
               ? (data['maxPrice'] as num).toDouble()
               : null,
-          category: data['category'],
-          isBidding: data['isBidding'] ?? true,
+          category: data['category'] as String? ?? 'Uncategorized',
+          subCategory: data['subCategory'] as String? ?? 'Uncategorized',
+          isBidding: data['isBidding'] as bool? ?? true,
           biddingStartTime: data['biddingStartTime'] != null
-              ? DateTime.parse(data['biddingStartTime'])
+              ? DateTime.parse(data['biddingStartTime'] as String)
               : null,
           biddingEndTime: data['biddingEndTime'] != null
-              ? DateTime.parse(data['biddingEndTime'])
+              ? DateTime.parse(data['biddingEndTime'] as String)
               : null,
-          isScheduled: data['isScheduled'] ?? false,
+          isScheduled: data['isScheduled'] as bool? ?? false,
           scheduleTime: data['scheduleTime'] != null
-              ? DateTime.parse(data['scheduleTime'])
+              ? DateTime.parse(data['scheduleTime'] as String)
               : null,
         );
       }).toList();
