@@ -82,7 +82,9 @@ class CustomButton extends StatelessWidget {
                 : null,
           ),
           child: Padding(
-            padding: padding ?? const EdgeInsets.symmetric(horizontal: 16.0), // Adjusted padding
+            padding: padding ??
+                const EdgeInsets.symmetric(
+                    horizontal: 16.0), // Adjusted padding
             child: Container(
               width: width,
               height: height,
